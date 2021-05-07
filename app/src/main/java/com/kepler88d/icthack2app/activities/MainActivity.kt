@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.kepler88d.icthack2app.R
 import com.kepler88d.icthack2app.databinding.ActivityMainBinding
@@ -19,7 +20,9 @@ class MainActivity : FragmentActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         val pagerAdapter = ScreenSlidePagerAdapter(this)
-        binding.viewpagerMain.adapter = pagerAdapter
+        binding.viewpagerMain.apply {
+            adapter = pagerAdapter
+        }
     }
 
 
