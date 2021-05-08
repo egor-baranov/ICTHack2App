@@ -44,7 +44,6 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/loginButon"
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
                     android:layout_marginStart="32dp"
@@ -152,7 +151,6 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/authorizeButton"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_width="150dp"
                 android:layout_height="60dp"
                 android:layout_marginTop="48dp"
@@ -285,7 +283,6 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/materialButton"
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                     android:layout_width="150dp"
                     android:layout_height="60dp"
                     android:layout_marginTop="48dp"
@@ -486,7 +483,6 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/materialButton2"
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                     android:layout_width="150dp"
                     android:layout_height="60dp"
                     android:layout_marginTop="48dp"
@@ -557,7 +553,7 @@
                         android:id="@+id/recyclerViewCheckboxes"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
                 </ScrollView>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>

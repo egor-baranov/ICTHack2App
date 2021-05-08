@@ -35,8 +35,7 @@ class MainActivity : FragmentActivity() {
         }
 
         binding.fabAddProject.setOnClickListener {
-            //performTransformAnimation(binding.fabAddProject, binding.addProjectCardView)
-
+            performTransformAnimation(binding.fabAddProject, binding.addProjectCardView)
         }
 
         binding.closeAddProjectButton.setOnClickListener {
