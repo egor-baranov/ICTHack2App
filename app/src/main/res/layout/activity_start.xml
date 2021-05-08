@@ -106,6 +106,7 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/materialButton"
+            android:textAllCaps="false"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="200dp"
             android:layout_height="60dp"
@@ -295,12 +296,14 @@
                 android:layout_marginTop="48dp"
                 android:layout_marginBottom="16dp"
                 android:text="Назад"
+                android:textAllCaps="false"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/descriptionInputField" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/materialButton2"
+                android:textAllCaps="false"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_width="150dp"
                 android:layout_height="60dp"
@@ -375,14 +378,16 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Web-разработка" />
+
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
+
                         <LinearLayout
                             android:layout_width="wrap_content"
-                            android:orientation="vertical"
                             android:layout_height="match_parent"
                             android:layout_marginStart="16dp"
+                            android:orientation="vertical"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent">
 
@@ -390,10 +395,12 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="React" />
+
                             <com.google.android.material.checkbox.MaterialCheckBox
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Vue" />
+
                             <com.google.android.material.checkbox.MaterialCheckBox
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -409,11 +416,12 @@
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
+
                         <LinearLayout
                             android:layout_width="wrap_content"
-                            android:orientation="vertical"
                             android:layout_height="match_parent"
                             android:layout_marginStart="16dp"
+                            android:orientation="vertical"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent">
 
@@ -421,10 +429,12 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Android" />
+
                             <com.google.android.material.checkbox.MaterialCheckBox
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="IOS" />
+
                             <com.google.android.material.checkbox.MaterialCheckBox
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -450,11 +460,12 @@
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
+
                         <LinearLayout
                             android:layout_width="wrap_content"
-                            android:orientation="vertical"
                             android:layout_height="match_parent"
                             android:layout_marginStart="16dp"
+                            android:orientation="vertical"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent">
 
@@ -462,10 +473,12 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Kotlin" />
+
                             <com.google.android.material.checkbox.MaterialCheckBox
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Java" />
+
                             <com.google.android.material.checkbox.MaterialCheckBox
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
