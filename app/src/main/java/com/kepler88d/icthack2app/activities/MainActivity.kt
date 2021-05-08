@@ -3,15 +3,19 @@ package com.kepler88d.icthack2app.activities
 import android.graphics.Color
 import android.os.Bundle
 import android.transition.TransitionManager
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import androidx.viewpager.widget.ViewPager.OnPageChangeListener
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.transition.platform.MaterialArcMotion
 import com.google.android.material.transition.platform.MaterialContainerTransform
 import com.kepler88d.icthack2app.databinding.ActivityMainBinding
 import com.kepler88d.icthack2app.fragments.MainFragment
 import com.kepler88d.icthack2app.fragments.NotificationsFragment
+
 
 class MainActivity : FragmentActivity() {
     lateinit var binding: ActivityMainBinding
@@ -35,6 +39,41 @@ class MainActivity : FragmentActivity() {
         }
 
 
+
+        addFabAnimation()
+
+
+
+
+
+
+    }
+
+    private fun addFabAnimation() {
+        binding.viewpagerMain.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback(){
+            var currentPage = binding.viewpagerMain.currentItem
+            var previousPage = binding.viewpagerMain.currentItem
+            override fun onPageScrolled(
+                position: Int,
+                positionOffset: Float,
+                positionOffsetPixels: Int
+            ) {
+                super.onPageScrolled(position, positionOffset, positionOffsetPixels)
+                Log.d("fdgsdfg", "$position $positionOffset")
+                previousPage = position
+                if(previousPage == 1){
+                    binding.fabAddProject.animate().scaleX(positionOffset).scaleY(positionOffset).setDuration(0).start()
+                }
+                else{
+                    binding.fabAddProject.animate().scaleX(1-positionOffset).scaleY(1-positionOffset).setDuration(0).start()
+                }
+
+            }
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+                currentPage = position
+            }
+        })
     }
 
     private inner class ScreenSlidePagerAdapter(fa: FragmentActivity) : FragmentStateAdapter(fa) {
