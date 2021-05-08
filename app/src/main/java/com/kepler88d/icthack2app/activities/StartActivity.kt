@@ -1,6 +1,5 @@
 package com.kepler88d.icthack2app.activities
 
-import android.app.ActivityOptions
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
@@ -12,11 +11,10 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.transition.platform.MaterialArcMotion
 import com.google.android.material.transition.platform.MaterialContainerTransform
 import com.google.android.material.transition.platform.MaterialFadeThrough
-import com.google.android.material.transition.platform.MaterialSharedAxis
-import com.kepler88d.icthack2app.R
 import com.kepler88d.icthack2app.databinding.ActivityStartBinding
 import com.kepler88d.icthack2app.model.RequestWorker
 import com.kepler88d.icthack2app.model.data.User
+import me.everything.android.ui.overscroll.OverScrollDecoratorHelper
 
 enum class StartActivityScreen {
     DOES_ACCOUNT_EXIST,
@@ -79,6 +77,19 @@ class StartActivity : AppCompatActivity() {
         binding.specializationList.setOnClickListener {
             performTransformAnimation(binding.specializationList, binding.card)
         }
+
+        OverScrollDecoratorHelper.setUpOverScroll(
+            binding.isUserLoginedScreen
+        )
+        OverScrollDecoratorHelper.setUpOverScroll(
+            binding.secondScreen
+        )
+        OverScrollDecoratorHelper.setUpOverScroll(
+            binding.firstScreen
+        )
+        OverScrollDecoratorHelper.setUpOverScroll(
+            binding.specListScrollView
+        )
     }
 
     private fun login() {
