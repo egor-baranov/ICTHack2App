@@ -11,10 +11,11 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.transition.platform.MaterialArcMotion
 import com.google.android.material.transition.platform.MaterialContainerTransform
 import com.google.android.material.transition.platform.MaterialFadeThrough
+import com.kepler88d.icthack2app.adapters.RecyclerViewCheckboxAdapter
 import com.kepler88d.icthack2app.databinding.ActivityStartBinding
 import com.kepler88d.icthack2app.model.RequestWorker
 import com.kepler88d.icthack2app.model.data.User
-import me.everything.android.ui.overscroll.OverScrollDecoratorHelper
+//import me.everything.android.ui.overscroll.OverScrollDecoratorHelper
 
 enum class StartActivityScreen {
     DOES_ACCOUNT_EXIST,
@@ -78,18 +79,22 @@ class StartActivity : AppCompatActivity() {
             performTransformAnimation(binding.specializationList, binding.card)
         }
 
-        OverScrollDecoratorHelper.setUpOverScroll(
-            binding.isUserLoginedScreen
-        )
-        OverScrollDecoratorHelper.setUpOverScroll(
-            binding.secondScreen
-        )
-        OverScrollDecoratorHelper.setUpOverScroll(
-            binding.firstScreen
-        )
-        OverScrollDecoratorHelper.setUpOverScroll(
-            binding.specListScrollView
-        )
+//        OverScrollDecoratorHelper.setUpOverScroll(
+//            binding.isUserLoginedScreen
+//        )
+//        OverScrollDecoratorHelper.setUpOverScroll(
+//            binding.secondScreen
+//        )
+//        OverScrollDecoratorHelper.setUpOverScroll(
+//            binding.firstScreen
+//        )
+//        OverScrollDecoratorHelper.setUpOverScroll(
+//            binding.specListScrollView
+//        )
+        val map = mapOf<String, List<String>>("asfdsf" to listOf("hi", "ho", "hu"), "fdf" to listOf("hgfd", "hho", "huh"))
+
+        val adapter = RecyclerViewCheckboxAdapter(this, map)
+        binding.recyclerViewCheckboxes.adapter = adapter
     }
 
     private fun login() {
