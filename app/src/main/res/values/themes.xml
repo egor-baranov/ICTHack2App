@@ -1,6 +1,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.ICTHack2App" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+    <style name="Theme.ICTHack2App" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item  name="android:windowActivityTransitions">true</item>
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/indigo_700</item>
         <item name="colorPrimaryVariant">@color/indigo_700_dark</item>
