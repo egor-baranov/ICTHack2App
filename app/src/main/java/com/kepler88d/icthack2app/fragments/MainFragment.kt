@@ -23,14 +23,34 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentMainBinding.inflate(layoutInflater)
+
+        binding.searchField.setOnClickListener {
+            (requireActivity() as MainActivity).performTransformAnimation(
+                binding.searchField,
+                binding.searchBox
+            )
+        }
+
+        binding.applySearchButton.setOnClickListener {
+            (requireActivity() as MainActivity).performTransformAnimation(
+                binding.searchBox,
+                binding.searchField
+            )
+        }
+
+        binding.closeSearchButton.setOnClickListener {
+            (requireActivity() as MainActivity).performTransformAnimation(
+                binding.searchBox,
+                binding.searchField
+            )
+        }
+
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        adapter = RecyclerViewMainAdapter(context!!, recyclerList)
-
-
+        adapter = RecyclerViewMainAdapter(requireActivity() as MainActivity, recyclerList)
 
         binding.recyclerviewMain.adapter = adapter
         val pager = (activity as MainActivity).binding.viewpagerMain
@@ -39,12 +59,11 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         }
 
         RequestWorker.getProjectList({ projectList: List<Project> ->
-                requireActivity().runOnUiThread {
-
-                    recyclerList.addAll(projectList)
-                    adapter.notifyDataSetChanged()
-                    Log.d("ProjectList", projectList.toString())
-                }
+            requireActivity().runOnUiThread {
+                recyclerList.addAll(projectList)
+                adapter.notifyDataSetChanged()
+                Log.d("ProjectList", projectList.toString())
+            }
         })
     }
 }
