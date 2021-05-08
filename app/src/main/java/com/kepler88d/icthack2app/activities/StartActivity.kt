@@ -44,8 +44,28 @@ class StartActivity : AppCompatActivity() {
         }
 
         binding.materialButton.setOnClickListener {
-            performPageTransition(binding.firstScreen, binding.secondScreen)
-            currentScreen = StartActivityScreen.SECOND_SCREEN
+            if (binding.firstNameTextField.editText!!.text.isEmpty() ||
+                binding.lastNameTextField.editText!!.text.isEmpty() ||
+                binding.isuIdTextField.editText!!.text.isEmpty() ||
+                binding.passwordIdTextField.editText!!.text.isEmpty()
+            ) {
+                binding.firstNameTextField.error =
+                    if (binding.firstNameTextField.editText!!.text.isEmpty()) "Заполните поле" else null
+                binding.lastNameTextField.error =
+                    if (binding.lastNameTextField.editText!!.text.isEmpty()) "Заполните поле" else null
+                binding.isuIdTextField.error =
+                    if (binding.isuIdTextField.editText!!.text.isEmpty()) "Заполните поле" else null
+                binding.passwordIdTextField.error =
+                    if (binding.passwordIdTextField.editText!!.text.isEmpty()) "Заполните поле" else null
+            } else {
+                binding.firstNameTextField.error = null
+                binding.lastNameTextField.error = null
+                binding.isuIdTextField.error = null
+                binding.passwordIdTextField.error = null
+
+                performPageTransition(binding.firstScreen, binding.secondScreen)
+                currentScreen = StartActivityScreen.SECOND_SCREEN
+            }
         }
 
         binding.backFromLoginButton.setOnClickListener {
