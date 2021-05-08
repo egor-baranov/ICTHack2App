@@ -18,9 +18,9 @@ data class Project(
     private fun toJsonString(): String = GsonBuilder().create().toJson(this)
 
     companion object {
-        fun fromJson(jsonObject: JSONObject): Project =
+        private fun fromJson(jsonObject: JSONObject): Project =
             GsonBuilder().create().fromJson(jsonObject.toString(), Project::class.java)
 
-        fun fromJsonString(jsonString: String): User = User.fromJson(JSONObject(jsonString))
+        fun fromJsonString(jsonString: String): Project = fromJson(JSONObject(jsonString))
     }
 }
