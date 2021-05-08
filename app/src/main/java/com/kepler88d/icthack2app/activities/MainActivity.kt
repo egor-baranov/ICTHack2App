@@ -38,19 +38,12 @@ class MainActivity : FragmentActivity() {
             performTransformAnimation(binding.addProjectCardView, binding.fabAddProject)
         }
 
-
-
         addFabAnimation()
-
-
-
-
-
-
     }
 
     private fun addFabAnimation() {
-        binding.viewpagerMain.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback(){
+        binding.viewpagerMain.registerOnPageChangeCallback(object :
+            ViewPager2.OnPageChangeCallback() {
             var currentPage = binding.viewpagerMain.currentItem
             var previousPage = binding.viewpagerMain.currentItem
             override fun onPageScrolled(
@@ -59,16 +52,16 @@ class MainActivity : FragmentActivity() {
                 positionOffsetPixels: Int
             ) {
                 super.onPageScrolled(position, positionOffset, positionOffsetPixels)
-                Log.d("fdgsdfg", "$position $positionOffset")
                 previousPage = position
-                if(previousPage == 1){
-                    binding.fabAddProject.animate().scaleX(positionOffset).scaleY(positionOffset).setDuration(0).start()
+                if (previousPage == 1) {
+                    binding.fabAddProject.animate().scaleX(positionOffset).scaleY(positionOffset)
+                        .setDuration(0).start()
+                } else {
+                    binding.fabAddProject.animate().scaleX(1 - positionOffset)
+                        .scaleY(1 - positionOffset).setDuration(0).start()
                 }
-                else{
-                    binding.fabAddProject.animate().scaleX(1-positionOffset).scaleY(1-positionOffset).setDuration(0).start()
-                }
-
             }
+
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
                 currentPage = position
@@ -81,10 +74,9 @@ class MainActivity : FragmentActivity() {
 
         override fun createFragment(position: Int): Fragment =
             if (position == 0) MainFragment() else NotificationsFragment()
-
     }
 
-    fun performTransformAnimation(firstView: View, secondView: View) {
+    private fun performTransformAnimation(firstView: View, secondView: View) {
         val transform = MaterialContainerTransform().apply {
             startView = firstView
             endView = secondView
