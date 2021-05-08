@@ -15,6 +15,7 @@ import com.google.android.material.transition.platform.MaterialContainerTransfor
 import com.kepler88d.icthack2app.databinding.ActivityMainBinding
 import com.kepler88d.icthack2app.fragments.MainFragment
 import com.kepler88d.icthack2app.fragments.NotificationsFragment
+import com.kepler88d.icthack2app.model.data.Project
 
 
 class MainActivity : FragmentActivity() {
@@ -34,6 +35,10 @@ class MainActivity : FragmentActivity() {
             performTransformAnimation(binding.fabAddProject, binding.addProjectCardView)
         }
 
+        binding.closeAddProjectButton.setOnClickListener {
+            performTransformAnimation(binding.addProjectCardView, binding.fabAddProject)
+        }
+
         binding.materialButton.setOnClickListener {
             performTransformAnimation(binding.addProjectCardView, binding.fabAddProject)
         }
@@ -41,25 +46,25 @@ class MainActivity : FragmentActivity() {
         addFabAnimation()
     }
 
+    fun fillProjectInfo(projectData: Project) {
+        binding.projectScreen.textViewProjectName.text = projectData.name
+        binding.projectScreen.textViewDescription.text = projectData.description
+        binding.projectScreen.textViewRepo.text = projectData.githubProjectLink
+
+    }
+
     private fun addFabAnimation() {
         binding.viewpagerMain.registerOnPageChangeCallback(object :
             ViewPager2.OnPageChangeCallback() {
             var currentPage = binding.viewpagerMain.currentItem
-            var previousPage = binding.viewpagerMain.currentItem
+
             override fun onPageScrolled(
                 position: Int,
                 positionOffset: Float,
                 positionOffsetPixels: Int
             ) {
                 super.onPageScrolled(position, positionOffset, positionOffsetPixels)
-                previousPage = position
-                if (previousPage == 1) {
-                    binding.fabAddProject.animate().scaleX(positionOffset).scaleY(positionOffset)
-                        .setDuration(0).start()
-                } else {
-                    binding.fabAddProject.animate().scaleX(1 - positionOffset)
-                        .scaleY(1 - positionOffset).setDuration(0).start()
-                }
+                if (position == 1) hideFab(positionOffset) else showFab(positionOffset)
             }
 
             override fun onPageSelected(position: Int) {
@@ -69,6 +74,16 @@ class MainActivity : FragmentActivity() {
         })
     }
 
+    fun showFab(positionOffset: Float = 1F) =
+        binding.fabAddProject.animate().scaleX(1 - positionOffset)
+            .scaleY(1 - positionOffset).setDuration(0).start()
+
+
+    fun hideFab(positionOffset: Float = 0F) =
+        binding.fabAddProject.animate().scaleX(positionOffset).scaleY(positionOffset)
+            .setDuration(0).start()
+
+
     private inner class ScreenSlidePagerAdapter(fa: FragmentActivity) : FragmentStateAdapter(fa) {
         override fun getItemCount(): Int = 2
 
@@ -76,7 +91,7 @@ class MainActivity : FragmentActivity() {
             if (position == 0) MainFragment() else NotificationsFragment()
     }
 
-    private fun performTransformAnimation(firstView: View, secondView: View) {
+    fun performTransformAnimation(firstView: View, secondView: View) {
         val transform = MaterialContainerTransform().apply {
             startView = firstView
             endView = secondView
