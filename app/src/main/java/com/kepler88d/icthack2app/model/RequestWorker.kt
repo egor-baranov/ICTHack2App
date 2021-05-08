@@ -1,6 +1,8 @@
 package com.kepler88d.icthack2app.model
 
 import android.util.Log
+import com.google.gson.GsonBuilder
+import com.google.gson.reflect.TypeToken
 import com.kepler88d.icthack2app.model.data.Project
 import com.kepler88d.icthack2app.model.data.User
 import io.ktor.client.*
@@ -9,6 +11,7 @@ import io.ktor.client.request.*
 import io.ktor.http.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import java.lang.reflect.Type
 
 class RequestWorker {
     companion object {
@@ -23,27 +26,33 @@ class RequestWorker {
 
         fun getUserById(id: Int, handler: (User) -> Unit) {
             GlobalScope.launch {
-                handler(client.get {
+                handler(User.fromJsonString(client.get {
                     url("/users/getById")
                     parameter("id", id.toString())
-                })
+                }))
             }
         }
 
         fun getProjectById(id: Int, handler: (Project) -> Unit) {
             GlobalScope.launch {
-                handler(client.get {
+                handler(Project.fromJsonString(client.get {
                     url("/projects/getById")
                     parameter("id", id.toString())
-                })
+                }))
             }
         }
 
-        fun getProjectList(handler: (List<Project>) -> Unit) {
+        fun getProjectList(handler: (List<Project>) -> Unit, errorHandler: () -> Unit = {}) {
             GlobalScope.launch {
-                handler(client.get {
-                    url("/projects/list")
-                })
+                try {
+                    val listType: Type = object : TypeToken<List<Project?>?>() {}.type
+                    handler(GsonBuilder().create().fromJson(client.get<String> {
+                        url("/projects/list")
+                    }, listType))
+                } catch (e: Exception) {
+                    errorHandler()
+                    Log.e("Project Error", e.message.toString())
+                }
             }
         }
 
