@@ -15,7 +15,7 @@ import com.kepler88d.icthack2app.adapters.RecyclerViewCheckboxAdapter
 import com.kepler88d.icthack2app.databinding.ActivityStartBinding
 import com.kepler88d.icthack2app.model.RequestWorker
 import com.kepler88d.icthack2app.model.data.User
-//import me.everything.android.ui.overscroll.OverScrollDecoratorHelper
+import me.everything.android.ui.overscroll.OverScrollDecoratorHelper
 
 enum class StartActivityScreen {
     DOES_ACCOUNT_EXIST,
@@ -79,22 +79,41 @@ class StartActivity : AppCompatActivity() {
             performTransformAnimation(binding.specializationList, binding.card)
         }
 
-//        OverScrollDecoratorHelper.setUpOverScroll(
-//            binding.isUserLoginedScreen
-//        )
-//        OverScrollDecoratorHelper.setUpOverScroll(
-//            binding.secondScreen
-//        )
-//        OverScrollDecoratorHelper.setUpOverScroll(
-//            binding.firstScreen
-//        )
-//        OverScrollDecoratorHelper.setUpOverScroll(
-//            binding.specListScrollView
-//        )
-        val map = mapOf<String, List<String>>("asfdsf" to listOf("hi", "ho", "hu"), "fdf" to listOf("hgfd", "hho", "huh"))
+        OverScrollDecoratorHelper.setUpOverScroll(
+            binding.isUserLoginedScreen
+        )
+        OverScrollDecoratorHelper.setUpOverScroll(
+            binding.secondScreen
+        )
+        OverScrollDecoratorHelper.setUpOverScroll(
+            binding.firstScreen
+        )
+        OverScrollDecoratorHelper.setUpOverScroll(
+            binding.specListScrollView
+        )
+        OverScrollDecoratorHelper.setUpOverScroll(
+            binding.recyclerViewCheckboxes, OverScrollDecoratorHelper.ORIENTATION_VERTICAL
+        )
 
-        val adapter = RecyclerViewCheckboxAdapter(this, map)
-        binding.recyclerViewCheckboxes.adapter = adapter
+        val map = mapOf(
+            "Frontend-разработка" to listOf("React", "Vue", "Angular", "Flutter for web"),
+            "Backend-разработка" to listOf("Flask", "Ktor", "Spring", "Django"),
+            "Мобильная разработка" to listOf("Android", "IOS", "Flutter", "React Native"),
+            "Data Science" to listOf(),
+            "Computer Science" to listOf(),
+            "Game Development" to listOf(),
+            "Языки программирования" to listOf(
+                "Python",
+                "Kotlin",
+                "Java",
+                "C#",
+                "C++",
+                "Clojure",
+                "Haskell"
+            )
+        )
+
+        binding.recyclerViewCheckboxes.adapter = RecyclerViewCheckboxAdapter(this, map)
     }
 
     private fun login() {
