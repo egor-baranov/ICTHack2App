@@ -6,19 +6,36 @@
     android:layout_height="match_parent"
     tools:context=".fragments.MainFragment">
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/searchBox"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textField"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:layout_margin="12dp"
+        android:layout_height="wrap_content"
+        android:hint="Search"
         android:layout_marginStart="16dp"
+        app:startIconDrawable="@drawable/ic_baseline_search_24"
         android:layout_marginTop="16dp"
+        android:layout_marginEnd="72dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <ImageButton
+        android:id="@+id/buttonNotifications"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#FFFFFF"
         android:layout_marginEnd="16dp"
-        android:clickable="true"
-        android:elevation="8dp"
-        app:layout_constraintEnd_toStartOf="@+id/searchCardView"
-        app:layout_constraintStart_toEndOf="@+id/searchCardView"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:src="@drawable/ic_baseline_notifications_none_24"
+        app:layout_constraintBottom_toBottomOf="@+id/textField"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textField" />
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -29,92 +46,17 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <HorizontalScrollView
-                android:id="@+id/horizontalScrollView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="16dp"
-                android:scrollbars="none"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <com.google.android.material.chip.ChipGroup
-                    android:layout_width="wrap_content"
-                    android:layout_height="100dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/button"
-                    app:singleLine="false">
-
-                    <com.google.android.material.chip.Chip
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="IOS" />
-
-                    <com.google.android.material.chip.Chip
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Android" />
-
-                    <com.google.android.material.chip.Chip
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Flutter" />
-
-                    <com.google.android.material.chip.Chip
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Web" />
-
-                    <com.google.android.material.chip.Chip
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Design" />
-
-                    <com.google.android.material.chip.Chip
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Business" />
-
-                    <com.google.android.material.chip.Chip
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Startup" />
-
-                    <com.google.android.material.chip.Chip
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Web" />
-
-                    <com.google.android.material.chip.Chip
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Design" />
-
-                    <com.google.android.material.chip.Chip
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Business" />
-
-                    <com.google.android.material.chip.Chip
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Startup" />
-                </com.google.android.material.chip.ChipGroup>
-            </HorizontalScrollView>
-
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerviewMain"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="16dp"
+                android:layout_margin="8dp"
                 android:minHeight="100dp"
                 android:overScrollMode="never"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView" />
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
