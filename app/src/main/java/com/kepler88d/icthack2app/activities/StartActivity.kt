@@ -192,6 +192,5 @@ class StartActivity : AppCompatActivity() {
                 currentScreen = StartActivityScreen.DOES_ACCOUNT_EXIST
             }
         }
-
     }
 }
