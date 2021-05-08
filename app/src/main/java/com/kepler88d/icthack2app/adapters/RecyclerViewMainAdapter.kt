@@ -13,7 +13,7 @@ class RecyclerViewMainAdapter (val context: Context) : RecyclerView.Adapter<Recy
 
     inner class ProjectItem(val binding: ItemProjectBinding): RecyclerView.ViewHolder(binding.root){
         fun bind(position: Int){
-            binding.textviewProjectName.text = "Project name $position"
+//            binding.textviewProjectName.text = "Project name $position"
         }
     }
 
@@ -28,7 +28,4 @@ class RecyclerViewMainAdapter (val context: Context) : RecyclerView.Adapter<Recy
     }
 
     override fun getItemCount() = 200
-
-
-
 }
