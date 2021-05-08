@@ -8,7 +8,6 @@ import android.transition.TransitionManager
 import android.view.View
 import com.google.android.material.transition.platform.MaterialArcMotion
 import com.google.android.material.transition.platform.MaterialContainerTransform
-import com.google.android.material.transition.platform.MaterialFade
 import com.google.android.material.transition.platform.MaterialFadeThrough
 import com.kepler88d.icthack2app.databinding.ActivityStartBinding
 
