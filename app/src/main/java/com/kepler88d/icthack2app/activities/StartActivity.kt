@@ -11,27 +11,61 @@ import com.google.android.material.transition.platform.MaterialContainerTransfor
 import com.google.android.material.transition.platform.MaterialFadeThrough
 import com.kepler88d.icthack2app.databinding.ActivityStartBinding
 
+enum class StartActivityScreen {
+    DOES_ACCOUNT_EXIST,
+    FIRST_SCREEN,
+    SECOND_SCREEN,
+    LOGIN_SCREEN
+}
+
 class StartActivity : Activity() {
     lateinit var binding: ActivityStartBinding
+    var currentScreen = StartActivityScreen.DOES_ACCOUNT_EXIST
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityStartBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        binding.registerButton.setOnClickListener {
+            performPageTransition(binding.isUserLoginedScreen, binding.firstScreen)
+            currentScreen = StartActivityScreen.FIRST_SCREEN
+        }
+
+        binding.loginButon.setOnClickListener {
+            performPageTransition(binding.isUserLoginedScreen, binding.loginScreen)
+            currentScreen = StartActivityScreen.LOGIN_SCREEN
+        }
+
         binding.materialButton.setOnClickListener {
             performPageTransition(binding.firstScreen, binding.secondScreen)
+            currentScreen = StartActivityScreen.SECOND_SCREEN
+        }
+
+        binding.backFromLoginButton.setOnClickListener {
+            performPageTransition(binding.loginScreen, binding.isUserLoginedScreen)
+            currentScreen = StartActivityScreen.DOES_ACCOUNT_EXIST
+        }
+
+        binding.backToChooseButton.setOnClickListener {
+            performPageTransition(binding.firstScreen, binding.isUserLoginedScreen)
+            currentScreen = StartActivityScreen.DOES_ACCOUNT_EXIST
         }
 
         binding.backButton.setOnClickListener {
             performPageTransition(binding.secondScreen, binding.firstScreen)
+            currentScreen = StartActivityScreen.FIRST_SCREEN
         }
 
         binding.materialButton2.setOnClickListener {
             startActivity(Intent(this, MainActivity::class.java))
         }
 
-        binding.specializationLayout.setOnClickListener{
+        binding.authorizeButton.setOnClickListener {
+            startActivity(Intent(this, MainActivity::class.java))
+        }
+
+        binding.specializationLayout.setOnClickListener {
             performTransformAnimation(binding.card, binding.specializationList)
         }
 
@@ -64,5 +98,24 @@ class StartActivity : Activity() {
 
         firstView.visibility = View.GONE
         secondView.visibility = View.VISIBLE
+    }
+
+    override fun onBackPressed() {
+        when (currentScreen) {
+            StartActivityScreen.DOES_ACCOUNT_EXIST -> super.onBackPressed()
+            StartActivityScreen.FIRST_SCREEN -> {
+                performPageTransition(binding.firstScreen, binding.isUserLoginedScreen)
+                currentScreen = StartActivityScreen.DOES_ACCOUNT_EXIST
+            }
+            StartActivityScreen.SECOND_SCREEN -> {
+                performPageTransition(binding.secondScreen, binding.firstScreen)
+                currentScreen = StartActivityScreen.FIRST_SCREEN
+            }
+            StartActivityScreen.LOGIN_SCREEN -> {
+                performPageTransition(binding.loginScreen, binding.isUserLoginedScreen)
+                currentScreen = StartActivityScreen.DOES_ACCOUNT_EXIST
+            }
+        }
+
     }
 }
