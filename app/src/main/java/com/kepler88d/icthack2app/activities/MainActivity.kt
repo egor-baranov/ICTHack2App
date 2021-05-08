@@ -1,15 +1,16 @@
 package com.kepler88d.icthack2app.activities
 
+import android.R
 import android.graphics.Color
 import android.os.Bundle
 import android.transition.TransitionManager
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
-import androidx.viewpager.widget.ViewPager.OnPageChangeListener
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.chip.Chip
 import com.google.android.material.transition.platform.MaterialArcMotion
 import com.google.android.material.transition.platform.MaterialContainerTransform
 import com.kepler88d.icthack2app.databinding.ActivityMainBinding
@@ -20,6 +21,8 @@ import com.kepler88d.icthack2app.model.data.Project
 
 class MainActivity : FragmentActivity() {
     lateinit var binding: ActivityMainBinding
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,7 +35,8 @@ class MainActivity : FragmentActivity() {
         }
 
         binding.fabAddProject.setOnClickListener {
-            performTransformAnimation(binding.fabAddProject, binding.addProjectCardView)
+            //performTransformAnimation(binding.fabAddProject, binding.addProjectCardView)
+
         }
 
         binding.closeAddProjectButton.setOnClickListener {
@@ -44,6 +48,12 @@ class MainActivity : FragmentActivity() {
         }
 
         addFabAnimation()
+        var bottomSheetBehavior = BottomSheetBehavior.from(binding.bottom.bottomSheet)
+        bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+        addChip("Android")
+        addChip("IOS")
+        addChip("Project managment")
+        addChip("Machine learning")
     }
 
     fun fillProjectInfo(projectData: Project) {
@@ -107,4 +117,15 @@ class MainActivity : FragmentActivity() {
         firstView.visibility = View.GONE
         secondView.visibility = View.VISIBLE
     }
+
+    private fun addChip(str: String){
+        val chip = Chip(this)
+        chip.text = str
+//        chip.setChipBackgroundColorResource(R.color.background_dark)
+////        chip.isCloseIconVisible = true
+//        chip.setTextColor(resources.getColor(R.color.white))
+////        chip.setTextAppearance(R.style.ChipTextAppearance)
+        binding.bottom.chipGroupSkills.addView(chip)
+    }
+
 }

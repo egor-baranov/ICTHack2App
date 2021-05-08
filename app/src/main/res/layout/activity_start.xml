@@ -553,11 +553,11 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 
-                    <LinearLayout
-                        android:id="@+id/checkBoxLinearLayout"
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclerViewCheckboxes"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"></LinearLayout>
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
                 </ScrollView>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
