@@ -4,7 +4,6 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.kepler88d.icthack2app.databinding.ItemProjectBinding
 import com.kepler88d.icthack2app.databinding.ItemReplyBinding
 
 class RecyclerViewRepliesAdapter(val context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {

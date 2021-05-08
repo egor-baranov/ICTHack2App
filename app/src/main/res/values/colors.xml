@@ -5,6 +5,15 @@
     <color name="purple_700">#FF3700B3</color>
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
+
+    <color name="indigo_700">#303f9f</color>
+    <color name="indigo_700_light">#666ad1</color>
+    <color name="indigo_700_dark">#001970</color>
+
+    <color name="deep_purple_800">#4527a0</color>
+    <color name="deep_purple_800_light">#7953d2</color>
+    <color name="deep_purple_800_dark">#000070</color>
+
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 </resources>
