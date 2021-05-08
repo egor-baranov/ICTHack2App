@@ -10,7 +10,11 @@ class RecyclerViewRepliesAdapter(val context: Context) : RecyclerView.Adapter<Re
 
 
     inner class ReplyItem(val binding: ItemReplyBinding): RecyclerView.ViewHolder(binding.root){
-
+        fun bind(position: Int){
+            binding.buttonDelete.setOnClickListener {
+                notifyItemRemoved(position)
+            }
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -20,7 +24,7 @@ class RecyclerViewRepliesAdapter(val context: Context) : RecyclerView.Adapter<Re
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-
+        (holder as ReplyItem).bind(position)
     }
 
     override fun getItemCount() = 200
