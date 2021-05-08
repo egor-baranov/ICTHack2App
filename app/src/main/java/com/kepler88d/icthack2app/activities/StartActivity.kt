@@ -1,15 +1,22 @@
 package com.kepler88d.icthack2app.activities
 
-import android.app.Activity
+import android.app.ActivityOptions
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.transition.TransitionManager
 import android.view.View
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.transition.platform.MaterialArcMotion
 import com.google.android.material.transition.platform.MaterialContainerTransform
 import com.google.android.material.transition.platform.MaterialFadeThrough
+import com.google.android.material.transition.platform.MaterialSharedAxis
+import com.kepler88d.icthack2app.R
 import com.kepler88d.icthack2app.databinding.ActivityStartBinding
+import com.kepler88d.icthack2app.model.RequestWorker
+import com.kepler88d.icthack2app.model.data.User
 
 enum class StartActivityScreen {
     DOES_ACCOUNT_EXIST,
@@ -18,9 +25,9 @@ enum class StartActivityScreen {
     LOGIN_SCREEN
 }
 
-class StartActivity : Activity() {
-    lateinit var binding: ActivityStartBinding
-    var currentScreen = StartActivityScreen.DOES_ACCOUNT_EXIST
+class StartActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityStartBinding
+    private var currentScreen = StartActivityScreen.DOES_ACCOUNT_EXIST
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,11 +65,11 @@ class StartActivity : Activity() {
         }
 
         binding.materialButton2.setOnClickListener {
-            startActivity(Intent(this, MainActivity::class.java))
+            register()
         }
 
         binding.authorizeButton.setOnClickListener {
-            startActivity(Intent(this, MainActivity::class.java))
+            login()
         }
 
         binding.specializationLayout.setOnClickListener {
@@ -72,6 +79,64 @@ class StartActivity : Activity() {
         binding.specializationList.setOnClickListener {
             performTransformAnimation(binding.specializationList, binding.card)
         }
+    }
+
+    private fun login() {
+        RequestWorker.authorizeUser(
+            id = binding.loginIdtextField.editText!!.text.toString().toInt(),
+            password = binding.loginPasswordIdTextField.editText!!.text.toString(),
+            handler = { user: User ->
+                run {
+                    this.openFileOutput("userData", Context.MODE_PRIVATE)
+                        .write(
+                            user.toJson().toString().toByteArray()
+                        )
+                    startActivity(
+                        Intent(this, MainActivity::class.java)
+                    )
+                }
+            },
+            errorHandler = {
+                runOnUiThread {
+                    Toast.makeText(
+                        this,
+                        "Что-то пошло не так, попробуйте еще раз",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+        )
+    }
+
+    private fun register() {
+        RequestWorker.registerUser(
+            id = binding.isuIdTextField.editText!!.text.toString().toInt(),
+            firstName = binding.firstNameTextField.editText!!.text.toString(),
+            lastName = binding.lastNameTextField.editText!!.text.toString(),
+            password = binding.passwordIdTextField.editText!!.text.toString(),
+            profileDescription = binding.descriptionInputField.editText!!.text.toString(),
+            specialization = "",
+            githubProfileLink = binding.githubInputField.editText!!.text.toString(),
+            handler = { user: User ->
+                run {
+                    this.openFileOutput("userData", Context.MODE_PRIVATE).write(
+                        user.toJson().toString().toByteArray()
+                    )
+                    startActivity(
+                        Intent(this, MainActivity::class.java)
+                    )
+                }
+            },
+            errorHandler = {
+                runOnUiThread {
+                    Toast.makeText(
+                        this,
+                        "Что-то пошло не так, попробуйте еще раз",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+        )
     }
 
     private fun performPageTransition(firstPage: View, secondPage: View) {
