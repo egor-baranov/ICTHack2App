@@ -1,10 +1,14 @@
 package com.kepler88d.icthack2app.activities
 
-import android.R
+import android.app.AlertDialog
 import android.graphics.Color
 import android.os.Bundle
 import android.transition.TransitionManager
+import android.view.LayoutInflater
 import android.view.View
+import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
@@ -13,19 +17,29 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.chip.Chip
 import com.google.android.material.transition.platform.MaterialArcMotion
 import com.google.android.material.transition.platform.MaterialContainerTransform
+import com.kepler88d.icthack2app.R
 import com.kepler88d.icthack2app.databinding.ActivityMainBinding
 import com.kepler88d.icthack2app.fragments.MainFragment
 import com.kepler88d.icthack2app.fragments.NotificationsFragment
+import com.kepler88d.icthack2app.model.GlobalDataStorage
+import com.kepler88d.icthack2app.model.RequestWorker
 import com.kepler88d.icthack2app.model.data.Project
+import com.kepler88d.icthack2app.model.data.User
+import me.everything.android.ui.overscroll.OverScrollDecoratorHelper
 
 
-class MainActivity : FragmentActivity() {
+class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
-
-
+    lateinit var userData: User
+    private val projectVacancyList = mutableListOf<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        openFileInput("userData").use {
+            userData = User.fromJsonString(it.readBytes().toString(Charsets.UTF_8))
+        }
+
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -38,28 +52,79 @@ class MainActivity : FragmentActivity() {
             performTransformAnimation(binding.fabAddProject, binding.addProjectCardView)
         }
 
-        binding.closeAddProjectButton.setOnClickListener {
-            performTransformAnimation(binding.addProjectCardView, binding.fabAddProject)
+        binding.addMemberButton.setOnClickListener {
+            AlertDialog.Builder(this)
+                .setTitle("Выберите вакансию для добавления")
+                .setItems(GlobalDataStorage.itTreeMap.keys.toTypedArray()) { dialog, which ->
+                    run {
+                        val selectedKey = GlobalDataStorage.itTreeMap.keys.toList()[which]
+                        AlertDialog.Builder(this)
+                            .setTitle(selectedKey)
+                            .setItems(GlobalDataStorage.itTreeMap[selectedKey]!!.toTypedArray()) { dialog, which1 ->
+                                run {
+                                    val newVacancy =
+                                        LayoutInflater.from(this).inflate(
+                                            R.layout.item_vacancy,
+                                            null,
+                                            false
+                                        )
+                                    projectVacancyList.add(GlobalDataStorage.itTreeMap[selectedKey]!![which1])
+                                    newVacancy.findViewWithTag<TextView>("text").text =
+                                        GlobalDataStorage.itTreeMap[selectedKey]!![which1]
+
+                                    newVacancy.findViewWithTag<CardView>("clickableCard")
+                                        .setOnClickListener {
+                                            projectVacancyList.remove(GlobalDataStorage.itTreeMap[selectedKey]!![which1])
+                                            binding.vacancyHolderLayout.removeView(newVacancy)
+                                        }
+                                    binding.vacancyHolderLayout.addView(newVacancy)
+                                }
+                            }
+                            .create().show()
+                    }
+                }
+                .create().show()
         }
 
-        binding.materialButton.setOnClickListener {
+        binding.createProjectButton.setOnClickListener {
+            val dialog = AlertDialog.Builder(this)
+                .setMessage("Подтвердить создание проекта ${binding.descriptionInputField.editText!!.text}?")
+                .setNegativeButton("Отмена") { dialog, which -> run {} }
+                .setPositiveButton("Да, подтвердить") { dialog, which ->
+                    run {
+                        RequestWorker.addProject(
+                            name = binding.projectNameInputField.editText!!.text.toString(),
+                            description = binding.projectNameInputField.editText!!.text.toString(),
+                            githubProjectLink = binding.githubRepoLinkInputField.editText!!.text.toString(),
+                            ownerId = userData.id
+                        )
+                        performTransformAnimation(binding.addProjectCardView, binding.fabAddProject)
+                    }
+                }.create()
+            dialog.show()
+            dialog.getButton(AlertDialog.BUTTON_POSITIVE).isAllCaps = false
+            dialog.getButton(AlertDialog.BUTTON_NEGATIVE).isAllCaps = false
+        }
+
+        binding.buttonCloseAddProject.setOnClickListener {
             performTransformAnimation(binding.addProjectCardView, binding.fabAddProject)
         }
 
         addFabAnimation()
-        var bottomSheetBehavior = BottomSheetBehavior.from(binding.bottom.bottomSheet)
+        val bottomSheetBehavior = BottomSheetBehavior.from(binding.bottom.bottomSheet)
         bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
         addChip("Android")
         addChip("IOS")
         addChip("Project managment")
         addChip("Machine learning")
+
+        OverScrollDecoratorHelper.setUpOverScroll(binding.addProjectCardView)
     }
 
     fun fillProjectInfo(projectData: Project) {
         binding.projectScreen.textViewProjectName.text = projectData.name
         binding.projectScreen.textViewDescription.text = projectData.description
         binding.projectScreen.textViewRepo.text = projectData.githubProjectLink
-
     }
 
     private fun addFabAnimation() {
@@ -117,7 +182,7 @@ class MainActivity : FragmentActivity() {
         secondView.visibility = View.VISIBLE
     }
 
-    private fun addChip(str: String){
+    private fun addChip(str: String) {
         val chip = Chip(this)
         chip.text = str
 //        chip.setChipBackgroundColorResource(R.color.background_dark)
