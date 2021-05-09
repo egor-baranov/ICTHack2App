@@ -144,9 +144,6 @@
             android:fontFamily="@font/roboto_light"
             android:text="Проекты"
             android:textSize="16sp" />
-
-
-
     </androidx.cardview.widget.CardView>
 
 
