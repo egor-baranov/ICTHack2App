@@ -56,7 +56,13 @@ class RequestWorker {
             }
         }
 
-        fun addProject(name: String, description: String, githubProjectLink: String, ownerId: Int) {
+        fun addProject(
+            name: String,
+            description: String,
+            githubProjectLink: String,
+            ownerId: Int,
+            vacancyList: MutableList<String>
+        ) {
             GlobalScope.launch {
                 client.post<String> {
                     url("/projects/add")
@@ -64,6 +70,16 @@ class RequestWorker {
                     parameter("description", description)
                     parameter("githubProjectLink", githubProjectLink)
                     parameter("ownerId", ownerId.toString())
+                    parameter(
+                        "vacancy", vacancyList
+                            .groupingBy { it }
+                            .eachCount()
+                            .toString()
+                            .replace("=", ":")
+                            .replace(", ", ",")
+                            .drop(1)
+                            .dropLast(1)
+                    )
                 }
             }
         }

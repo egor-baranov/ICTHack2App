@@ -180,9 +180,9 @@ class StartActivity : Activity() {
                         .write(
                             user.toJson().toString().toByteArray()
                         )
-                    startActivity(
-                        Intent(this, MainActivity::class.java)
-                    )
+                    val intent = Intent(this, MainActivity::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    startActivity(intent)
                 }
             },
             errorHandler = {
@@ -211,9 +211,9 @@ class StartActivity : Activity() {
                     this.openFileOutput("userData", Context.MODE_PRIVATE).write(
                         user.toJson().toString().toByteArray()
                     )
-                    startActivity(
-                        Intent(this, MainActivity::class.java)
-                    )
+                    val intent = Intent(this, MainActivity::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    startActivity(intent)
                 }
             },
             errorHandler = {
