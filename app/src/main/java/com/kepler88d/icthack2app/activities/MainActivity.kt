@@ -28,13 +28,31 @@ import com.kepler88d.icthack2app.model.data.User
 import me.everything.android.ui.overscroll.OverScrollDecoratorHelper
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.animation.AccelerateInterpolator
+import androidx.constraintlayout.widget.ConstraintLayout
 import com.google.android.material.transition.platform.MaterialFadeThrough
 
 
+var currentOpened = MainActivity.OPENED_NOTHING
+
+
+
+
 class MainActivity : AppCompatActivity() {
+
+    public companion object Elements{
+        val OPENED_NOTHING = 0
+        val OPENED_ADDING_PROJECT = 1
+        val OPENED_PROJECT_SCREEN = 2
+        val OPENED_SEARCH_BAR = 3
+        val OPENED_BOTTOM_SHEET = 4
+        val OPENED_PROFILE = 5
+        val OPENED_NOTIFICATIONS = 6
+    }
     lateinit var binding: ActivityMainBinding
     lateinit var userData: User
+    lateinit var bottomSheetBehavior: BottomSheetBehavior<ConstraintLayout>
     private val projectVacancyList = mutableListOf<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,6 +71,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.fabAddProject.setOnClickListener {
+            currentOpened = OPENED_ADDING_PROJECT
+            Log.d("debugCheckOpened", "c: $currentOpened")
             performTransformAnimation(binding.fabAddProject, binding.addProjectScreen.root)
         }
 
@@ -121,11 +141,13 @@ class MainActivity : AppCompatActivity() {
 
 
         binding.addProjectScreen.buttonCloseAddProject.setOnClickListener {
+            currentOpened = OPENED_NOTHING
+            Log.d("debugCheckOpened", "c: $currentOpened")
             performTransformAnimation(binding.addProjectScreen.root, binding.fabAddProject)
         }
 
         addFabAnimation()
-        val bottomSheetBehavior = BottomSheetBehavior.from(binding.bottom.bottomSheet)
+        bottomSheetBehavior = BottomSheetBehavior.from(binding.bottom.bottomSheet)
         bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
         addChip("Android")
         addChip("IOS")
@@ -134,6 +156,8 @@ class MainActivity : AppCompatActivity() {
 
 
         binding.bottom.buttonClose.setOnClickListener {
+            currentOpened = OPENED_NOTIFICATIONS
+            Log.d("debugCheckOpened", "c: $currentOpened")
             bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
         }
         OverScrollDecoratorHelper.setUpOverScroll(binding.addProjectScreen.addProjectCardView)
@@ -154,6 +178,41 @@ class MainActivity : AppCompatActivity() {
         }, 3000)
     }
 
+    override fun onBackPressed() {
+        Log.d("debugCheckOpened", "cc: $currentOpened")
+        if(currentOpened == OPENED_ADDING_PROJECT){
+            currentOpened = OPENED_NOTHING
+            performTransformAnimation(binding.addProjectScreen.root, binding.fabAddProject)
+
+        }
+        else if(currentOpened == OPENED_SEARCH_BAR){
+            val fragment =
+                this.supportFragmentManager.findFragmentByTag("f0")
+            Log.d("sdzf", fragment?.javaClass?.simpleName.toString())
+            (fragment as IOnBackPressed).onBackPressed()
+        }
+        else if (currentOpened == OPENED_PROJECT_SCREEN){
+            val fragment =
+                this.supportFragmentManager.findFragmentByTag("f0")
+            Log.d("sdzf", fragment?.javaClass?.simpleName.toString())
+            (fragment as IOnBackPressed).onBackPressed()
+        }
+        else if(currentOpened == OPENED_PROFILE){
+            val fragment =
+                this.supportFragmentManager.findFragmentByTag("f0")
+            Log.d("sdzf", fragment?.javaClass?.simpleName.toString())
+            (fragment as IOnBackPressed).onBackPressed()
+        }
+        else if(currentOpened == OPENED_NOTIFICATIONS){
+            binding.viewpagerMain.setCurrentItem(0, true)
+        }
+        else if(currentOpened == OPENED_BOTTOM_SHEET){
+            currentOpened = OPENED_NOTIFICATIONS
+            bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+        }
+
+    }
+
     fun fillProjectInfo(projectData: Project) {
         binding.projectScreen.textViewProjectName.text = projectData.name
         binding.projectScreen.textViewDescription.text = projectData.description
@@ -171,11 +230,26 @@ class MainActivity : AppCompatActivity() {
                 positionOffsetPixels: Int
             ) {
                 super.onPageScrolled(position, positionOffset, positionOffsetPixels)
-                if (position == 1) hideFab(positionOffset) else showFab(positionOffset)
+                bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+                if (position == 1) {
+                    hideFab(positionOffset)
+                }
+                else {
+                    showFab(positionOffset)
+
+                }
             }
 
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
+                if (position == 1){
+                    currentOpened = OPENED_NOTIFICATIONS
+                    Log.d("debugCheckOpened", "c: $currentOpened")
+                }
+                else{
+                    currentOpened = OPENED_NOTHING
+                    Log.d("debugCheckOpened", "c: $currentOpened")
+                }
                 currentPage = position
             }
         })
@@ -234,4 +308,9 @@ class MainActivity : AppCompatActivity() {
         binding.bottom.chipGroupSkills.addView(chip)
     }
 
+}
+
+
+interface IOnBackPressed {
+    fun onBackPressed()
 }

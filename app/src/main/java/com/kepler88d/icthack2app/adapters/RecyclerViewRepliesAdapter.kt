@@ -1,12 +1,14 @@
 package com.kepler88d.icthack2app.adapters
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.kepler88d.icthack2app.R
 import com.kepler88d.icthack2app.activities.MainActivity
+import com.kepler88d.icthack2app.activities.currentOpened
 import com.kepler88d.icthack2app.databinding.ItemReplyBinding
 
 class RecyclerViewRepliesAdapter(val context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -14,16 +16,17 @@ class RecyclerViewRepliesAdapter(val context: Context) : RecyclerView.Adapter<Re
 
     inner class ReplyItem(val binding: ItemReplyBinding): RecyclerView.ViewHolder(binding.root){
         fun bind(position: Int){
-//            binding.buttonDelete.setOnClickListener {
-//                notifyItemRemoved(position)
-//            }
             binding.itemReply.setOnClickListener {
                 val bottomSheetBehavior = BottomSheetBehavior.from((context as MainActivity).binding.bottom.bottomSheet)
                 if(bottomSheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED){
                     bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+                    currentOpened = MainActivity.OPENED_NOTIFICATIONS
+                    Log.d("debugCheckOpened", "c: $currentOpened")
                 }
                 else{
                     bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+                    currentOpened = MainActivity.OPENED_BOTTOM_SHEET
+                    Log.d("debugCheckOpened", "c: $currentOpened")
                 }
 
 

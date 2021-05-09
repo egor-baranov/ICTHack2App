@@ -5,26 +5,35 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.kepler88d.icthack2app.activities.IOnBackPressed
 import com.kepler88d.icthack2app.activities.MainActivity
+import com.kepler88d.icthack2app.activities.currentOpened
 import com.kepler88d.icthack2app.databinding.ItemProjectBinding
+import com.kepler88d.icthack2app.fragments.IOnBackPressed2
+import com.kepler88d.icthack2app.fragments.MainFragment
 import com.kepler88d.icthack2app.model.data.Project
 
 class RecyclerViewMainAdapter(val activity: MainActivity, val list: List<Project>) :
-    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+    RecyclerView.Adapter<RecyclerView.ViewHolder>(), IOnBackPressed2 {
+    var currentOpenProjIndex = -1
+    lateinit var tmp : ItemProjectBinding
 
-    inner class ProjectItem(private val binding: ItemProjectBinding) :
+    inner class ProjectItem(val binding: ItemProjectBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(position: Int) {
             binding.cardViewProject.setOnClickListener {
+                tmp = binding
+                currentOpened = MainActivity.OPENED_PROJECT_SCREEN
                 activity.performTransformAnimation(
                     binding.cardViewProject,
                     activity.binding.projectScreen.root
                 )
-
+                currentOpenProjIndex = position
                 activity.fillProjectInfo(list[position])
                 activity.binding.fabAddProject.visibility = View.GONE
 
                 activity.binding.projectScreen.buttonBack.setOnClickListener {
+
                     activity.performTransformAnimation(
                         activity.binding.projectScreen.root,
                         binding.cardViewProject
@@ -59,4 +68,13 @@ class RecyclerViewMainAdapter(val activity: MainActivity, val list: List<Project
     }
 
     override fun getItemCount() = list.size + 1
+
+    override fun onBackPressed() {
+        Log.d("sdzf", "click back adapter")
+        activity.performTransformAnimation(
+            activity.binding.projectScreen.root,
+            tmp.cardViewProject
+        )
+        activity.binding.fabAddProject.visibility = View.VISIBLE
+    }
 }
