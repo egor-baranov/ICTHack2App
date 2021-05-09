@@ -37,11 +37,9 @@ import com.google.android.material.transition.platform.MaterialFadeThrough
 var currentOpened = MainActivity.OPENED_NOTHING
 
 
-
-
 class MainActivity : AppCompatActivity() {
 
-    public companion object Elements{
+    public companion object Elements {
         val OPENED_NOTHING = 0
         val OPENED_ADDING_PROJECT = 1
         val OPENED_PROJECT_SCREEN = 2
@@ -50,6 +48,7 @@ class MainActivity : AppCompatActivity() {
         val OPENED_PROFILE = 5
         val OPENED_NOTIFICATIONS = 6
     }
+
     lateinit var binding: ActivityMainBinding
     lateinit var userData: User
     lateinit var bottomSheetBehavior: BottomSheetBehavior<ConstraintLayout>
@@ -113,19 +112,44 @@ class MainActivity : AppCompatActivity() {
         }
 
 
-
-
         binding.addProjectScreen.createProjectButton.setOnClickListener {
+
+            binding.addProjectScreen.projectNameInputField.error =
+                if (binding.addProjectScreen.projectNameInputField.editText!!.text.isEmpty())
+                    "Название проекта не может быть пустой строкой" else null
+            binding.addProjectScreen.descriptionInputField.error =
+                if (binding.addProjectScreen.descriptionInputField.editText!!.text.isEmpty())
+                    "Описание проекта не может быть пустой строкой" else null
+            binding.addProjectScreen.githubRepoLinkInputField.error =
+                if (binding.addProjectScreen.githubRepoLinkInputField.editText!!.text.isEmpty())
+                    "Добавьте ссылку на репозиторий проекта" else null
+
+            if (projectVacancyList.isEmpty()) {
+                val dialog = AlertDialog.Builder(this)
+                    .setMessage("Добавьте хотя бы одну вакансию для создания проекта")
+                    .setPositiveButton("Хорошо") { _, _ -> run {} }.create()
+                dialog.show()
+                dialog.getButton(AlertDialog.BUTTON_POSITIVE).isAllCaps = false
+                dialog.getButton(AlertDialog.BUTTON_NEGATIVE).isAllCaps = false
+            }
+
             val dialog = AlertDialog.Builder(this)
-                .setMessage("Подтвердить создание проекта ${binding.addProjectScreen.descriptionInputField.editText!!.text}?")
+                .setMessage("Подтвердить создание проекта ${binding.addProjectScreen.projectNameInputField.editText!!.text}?")
                 .setNegativeButton("Отмена") { dialog, which -> run {} }
                 .setPositiveButton("Да, подтвердить") { dialog, which ->
                     run {
                         RequestWorker.addProject(
                             name = binding.addProjectScreen.projectNameInputField.editText!!.text.toString(),
-                            description = binding.addProjectScreen.projectNameInputField.editText!!.text.toString(),
-                            githubProjectLink = binding.addProjectScreen.githubRepoLinkInputField.editText!!.text.toString(),
-                            ownerId = userData.id
+                            description = binding.addProjectScreen.descriptionInputField.editText!!.text.toString(),
+                            githubProjectLink = "https://github.com/" +
+                                    binding
+                                        .addProjectScreen
+                                        .githubRepoLinkInputField
+                                        .editText!!
+                                        .text
+                                        .toString(),
+                            ownerId = userData.id,
+                            projectVacancyList
                         )
                         performTransformAnimation(
                             binding.addProjectScreen.root,
@@ -133,12 +157,17 @@ class MainActivity : AppCompatActivity() {
                         )
                     }
                 }.create()
-            dialog.show()
-            dialog.getButton(AlertDialog.BUTTON_POSITIVE).isAllCaps = false
-            dialog.getButton(AlertDialog.BUTTON_NEGATIVE).isAllCaps = false
+
+            if (binding.addProjectScreen.projectNameInputField.error == null &&
+                binding.addProjectScreen.descriptionInputField.error == null &&
+                binding.addProjectScreen.githubRepoLinkInputField.error == null &&
+                projectVacancyList.isNotEmpty()
+            ) {
+                dialog.show()
+                dialog.getButton(AlertDialog.BUTTON_POSITIVE).isAllCaps = false
+                dialog.getButton(AlertDialog.BUTTON_NEGATIVE).isAllCaps = false
+            }
         }
-
-
 
         binding.addProjectScreen.buttonCloseAddProject.setOnClickListener {
             currentOpened = OPENED_NOTHING
@@ -164,49 +193,46 @@ class MainActivity : AppCompatActivity() {
 
         binding.loadSplashScreen.visibility = View.VISIBLE
         binding.fabAddProject.visibility = View.GONE
-        Handler(Looper.getMainLooper()).postDelayed({
-            binding.fabAddProject.visibility = View.VISIBLE
-            binding.loadSplashScreen
-                .animate()
-                .alpha(0f)
-                .setDuration(500)
-                .setInterpolator(AccelerateInterpolator())
-                .start()
-            Handler(Looper.getMainLooper()).postDelayed({
-                binding.loadSplashScreen.visibility = View.GONE
-            }, 1000)
-        }, 3000)
+        Handler(Looper.getMainLooper()).postDelayed(
+            {
+                binding.fabAddProject.visibility = View.VISIBLE
+                binding.loadSplashScreen
+                    .animate()
+                    .alpha(0f)
+                    .setDuration(500)
+                    .setInterpolator(AccelerateInterpolator())
+                    .start()
+                Handler(Looper.getMainLooper()).postDelayed({
+                    binding.loadSplashScreen.visibility = View.GONE
+                }, 1000)
+            }, 3000
+        )
     }
 
     override fun onBackPressed() {
         Log.d("debugCheckOpened", "cc: $currentOpened")
-        if(currentOpened == OPENED_ADDING_PROJECT){
+        if (currentOpened == OPENED_ADDING_PROJECT) {
             currentOpened = OPENED_NOTHING
             performTransformAnimation(binding.addProjectScreen.root, binding.fabAddProject)
 
-        }
-        else if(currentOpened == OPENED_SEARCH_BAR){
+        } else if (currentOpened == OPENED_SEARCH_BAR) {
             val fragment =
                 this.supportFragmentManager.findFragmentByTag("f0")
             Log.d("sdzf", fragment?.javaClass?.simpleName.toString())
             (fragment as IOnBackPressed).onBackPressed()
-        }
-        else if (currentOpened == OPENED_PROJECT_SCREEN){
+        } else if (currentOpened == OPENED_PROJECT_SCREEN) {
             val fragment =
                 this.supportFragmentManager.findFragmentByTag("f0")
             Log.d("sdzf", fragment?.javaClass?.simpleName.toString())
             (fragment as IOnBackPressed).onBackPressed()
-        }
-        else if(currentOpened == OPENED_PROFILE){
+        } else if (currentOpened == OPENED_PROFILE) {
             val fragment =
                 this.supportFragmentManager.findFragmentByTag("f0")
             Log.d("sdzf", fragment?.javaClass?.simpleName.toString())
             (fragment as IOnBackPressed).onBackPressed()
-        }
-        else if(currentOpened == OPENED_NOTIFICATIONS){
+        } else if (currentOpened == OPENED_NOTIFICATIONS) {
             binding.viewpagerMain.setCurrentItem(0, true)
-        }
-        else if(currentOpened == OPENED_BOTTOM_SHEET){
+        } else if (currentOpened == OPENED_BOTTOM_SHEET) {
             currentOpened = OPENED_NOTIFICATIONS
             bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
         }
@@ -217,6 +243,40 @@ class MainActivity : AppCompatActivity() {
         binding.projectScreen.textViewProjectName.text = projectData.name
         binding.projectScreen.textViewDescription.text = projectData.description
         binding.projectScreen.textViewRepo.text = projectData.githubProjectLink
+
+        binding.projectScreen.projectVacancyLinearLayout.removeAllViews()
+        for (e in projectData.vacancy) {
+            for (i in 0 until projectData.freeVacancy[e.key]!!) {
+                val newView = LayoutInflater.from(this).inflate(
+                    R.layout.item_vacancy, null, false
+                )
+                newView.findViewWithTag<TextView>("text").text = e.key
+                binding.projectScreen.projectVacancyLinearLayout.addView(newView)
+            }
+            for (i in 0 until projectData.vacancy[e.key]!! - projectData.freeVacancy.getOrElse(e.key) { 0 }) {
+                val newView =
+                    LayoutInflater.from(this).inflate(
+                        R.layout.item_vacancy_locked, null, false
+                    )
+                newView.findViewWithTag<TextView>("text").text = e.key
+                binding.projectScreen.projectVacancyLinearLayout.addView(newView)
+            }
+        }
+
+        binding.projectScreen.textViewRepliesCount.text =
+            "Количество откликов: ${projectData.replyIdList.size}"
+        RequestWorker.getUserById(projectData.ownerId, ({ user: User ->
+            runOnUiThread {
+                binding.projectScreen.textViewContributor.text =
+                    "Владелец: ${user.firstName} ${user.lastName}"
+            }
+        }))
+
+        binding.projectScreen.textViewMembersCount.text =
+            "Количество участников: ${projectData.vacancy.values.sum() + 1}"
+
+        binding.projectScreen.textViewProjectName2.text =
+            "Вакансии на проект (${projectData.freeVacancy.values.sum()} из ${projectData.vacancy.values.sum()})"
     }
 
     private fun addFabAnimation() {
@@ -233,8 +293,7 @@ class MainActivity : AppCompatActivity() {
                 bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
                 if (position == 1) {
                     hideFab(positionOffset)
-                }
-                else {
+                } else {
                     showFab(positionOffset)
 
                 }
@@ -242,11 +301,10 @@ class MainActivity : AppCompatActivity() {
 
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
-                if (position == 1){
+                if (position == 1) {
                     currentOpened = OPENED_NOTIFICATIONS
                     Log.d("debugCheckOpened", "c: $currentOpened")
-                }
-                else{
+                } else {
                     currentOpened = OPENED_NOTHING
                     Log.d("debugCheckOpened", "c: $currentOpened")
                 }
