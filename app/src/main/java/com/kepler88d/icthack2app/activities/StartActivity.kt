@@ -1,5 +1,6 @@
 package com.kepler88d.icthack2app.activities
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
@@ -13,6 +14,7 @@ import com.google.android.material.transition.platform.MaterialContainerTransfor
 import com.google.android.material.transition.platform.MaterialFadeThrough
 import com.kepler88d.icthack2app.adapters.RecyclerViewCheckboxAdapter
 import com.kepler88d.icthack2app.databinding.ActivityStartBinding
+import com.kepler88d.icthack2app.model.GlobalDataStorage
 import com.kepler88d.icthack2app.model.RequestWorker
 import com.kepler88d.icthack2app.model.data.User
 import me.everything.android.ui.overscroll.OverScrollDecoratorHelper
@@ -24,7 +26,7 @@ enum class StartActivityScreen {
     LOGIN_SCREEN
 }
 
-class StartActivity : AppCompatActivity() {
+class StartActivity : Activity() {
     private lateinit var binding: ActivityStartBinding
     private var currentScreen = StartActivityScreen.DOES_ACCOUNT_EXIST
 
@@ -115,25 +117,8 @@ class StartActivity : AppCompatActivity() {
             binding.recyclerViewCheckboxes, OverScrollDecoratorHelper.ORIENTATION_VERTICAL
         )
 
-        val map = mapOf(
-            "Frontend-разработка" to listOf("React", "Vue", "Angular", "Flutter for web"),
-            "Backend-разработка" to listOf("Flask", "Ktor", "Spring", "Django"),
-            "Мобильная разработка" to listOf("Android", "IOS", "Flutter", "React Native"),
-            "Data Science" to listOf(),
-            "Computer Science" to listOf(),
-            "Game Development" to listOf(),
-            "Языки программирования" to listOf(
-                "Python",
-                "Kotlin",
-                "Java",
-                "C#",
-                "C++",
-                "Clojure",
-                "Haskell"
-            )
-        )
-
-        binding.recyclerViewCheckboxes.adapter = RecyclerViewCheckboxAdapter(this, map)
+        binding.recyclerViewCheckboxes.adapter =
+            RecyclerViewCheckboxAdapter(this, GlobalDataStorage.itTreeMap)
     }
 
     private fun login() {
