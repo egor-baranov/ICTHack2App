@@ -204,7 +204,7 @@ class StartActivity : Activity() {
             lastName = binding.lastNameTextField.editText!!.text.toString(),
             password = binding.passwordIdTextField.editText!!.text.toString(),
             profileDescription = binding.descriptionInputField.editText!!.text.toString(),
-            specialization = "",
+            specializationList = listOf(),
             githubProfileLink = binding.githubInputField.editText!!.text.toString(),
             handler = { user: User ->
                 run {
