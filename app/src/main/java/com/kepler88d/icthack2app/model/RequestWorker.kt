@@ -90,7 +90,7 @@ class RequestWorker {
             lastName: String,
             password: String,
             profileDescription: String,
-            specialization: String,
+            specializationList: List<String>,
             githubProfileLink: String,
             handler: (User) -> Unit,
             errorHandler: () -> Unit

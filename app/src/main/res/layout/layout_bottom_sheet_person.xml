@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/bottom_sheet"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:id="@+id/bottom_sheet"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/rounded_bottom_sheet"
-    android:elevation="4dp"
     android:clickable="true"
+    android:elevation="4dp"
     android:focusable="true"
     android:orientation="vertical"
-    app:behavior_hideable="true"
     android:paddingBottom="16dp"
+    app:behavior_hideable="true"
 
     app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
@@ -23,26 +24,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-<!--    <View-->
-<!--        android:id="@+id/view"-->
-<!--        android:layout_width="42dp"-->
-<!--        android:layout_height="6dp"-->
-<!--        android:layout_marginTop="16dp"-->
-<!--        android:background="@drawable/rounded_view_header"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent" />-->
-
     <TextView
         android:id="@+id/textViewNameBottom"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="50dp"
         android:text="Vitaly Sorokin"
+        android:textColor="@color/text_dark"
         android:textSize="20sp"
         android:textStyle="bold"
-        android:textColor="@color/text_dark"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="50dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -58,33 +49,41 @@
         app:layout_constraintStart_toEndOf="@+id/textViewNameBottom"
         app:layout_constraintTop_toTopOf="@+id/textViewNameBottom" />
 
-    <com.google.android.material.chip.ChipGroup
-        android:id="@+id/chipGroupSkills"
+    <HorizontalScrollView
+        android:id="@+id/horizontalChipGroupScrollView"
         android:layout_width="match_parent"
-        android:layout_marginTop="8dp"
-        android:layout_marginHorizontal="16dp"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/textViewNameBottom" />
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/textViewNameBottom">
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/chipGroupSkills"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </HorizontalScrollView>
 
     <TextView
         android:id="@+id/textViewDescription"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
+        android:layout_marginHorizontal="32dp"
         android:layout_marginTop="8dp"
-        android:textColor="@color/text_dark"
         android:text="Выпей этих чашек и налей плюшек "
-        android:textSize="20sp"
-        app:layout_constraintTop_toBottomOf="@+id/chipGroupSkills" />
+        android:textColor="@color/text_dark"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/horizontalChipGroupScrollView" />
 
     <TextView
         android:id="@+id/textViewTgLink"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="8dp"
         android:text="Telegram: @"
-        android:textSize="20sp"
+        android:textSize="14sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewDescription" />
 
@@ -93,9 +92,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:clickable="true"
-        android:textColor="#006BFF"
         android:text="VITYQ"
-        android:textSize="20sp"
+        android:textColor="#006BFF"
+        android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="@+id/textViewTgLink"
         app:layout_constraintStart_toEndOf="@+id/textViewTgLink"
         app:layout_constraintTop_toTopOf="@+id/textViewTgLink" />
@@ -105,35 +104,35 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
+        android:layout_marginStart="32dp"
         android:layout_marginTop="4dp"
         android:autoLink="all"
         android:linksClickable="true"
         android:text="Github: http://github.com/VITYQ"
         android:textColorLink="#006BFF"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:textSize="14sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewTgLink" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/buttonReject"
-        android:layout_width="match_parent"
-        android:layout_height="72dp"
-        android:text="Отклонить"
         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintTop_toBottomOf="@+id/textViewGithubLink"/>
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginHorizontal="32dp"
+        android:layout_marginTop="8dp"
+        android:text="Отклонить"
+        app:layout_constraintTop_toBottomOf="@+id/textViewGithubLink"
+        tools:layout_editor_absoluteX="32dp" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/buttonAccept"
         android:layout_width="match_parent"
-        android:layout_height="72dp"
-        android:text="принять"
-        android:layout_marginHorizontal="16dp"
+        android:layout_height="60dp"
+        android:layout_marginHorizontal="32dp"
         android:layout_marginTop="8dp"
-        app:layout_constraintTop_toBottomOf="@+id/buttonReject"/>
-
+        android:text="принять"
+        app:layout_constraintTop_toBottomOf="@+id/buttonReject" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
