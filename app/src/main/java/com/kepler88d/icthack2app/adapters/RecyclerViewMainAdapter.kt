@@ -28,6 +28,8 @@ class RecyclerViewMainAdapter(val activity: MainActivity, val list: List<Project
                     binding.cardViewProject,
                     activity.binding.projectScreen.root
                 )
+
+//                binding.textViewSpecializations.text
                 currentOpenProjIndex = position
                 activity.fillProjectInfo(list[position])
                 activity.binding.fabAddProject.visibility = View.GONE
