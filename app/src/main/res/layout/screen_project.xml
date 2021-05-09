@@ -4,14 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:clickable="true"
-    android:background="@color/white">
+    android:background="@color/white"
+    android:clickable="true">
 
     <ScrollView
         android:id="@+id/nestedScrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="64dp"
         android:layout_marginBottom="90dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -20,7 +19,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="1000dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="top">
 
             <TextView
@@ -38,30 +37,65 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
+                android:id="@+id/textViewProjectName2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:fontFamily="@font/roboto_medium"
+                android:text="Вакансии на проект"
+                android:textColor="@color/text_dark"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cardViewRepo" />
+
+            <LinearLayout
+                android:id="@+id/projectVacancyLinearLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="32dp"
+                android:layout_marginBottom="16dp"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textViewProjectName2">
+
+                <include layout="@layout/item_vacancy" />
+
+                <include layout="@layout/item_vacancy_locked" />
+
+                <include layout="@layout/item_vacancy" />
+            </LinearLayout>
+
+            <TextView
                 android:id="@+id/textViewMembersCount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:fontFamily="@font/roboto_light"
-                android:text="4 members"
+                android:text="Количество участников: 4"
                 android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textViewProjectName" />
 
             <HorizontalScrollView
-                android:scrollbars="none"
                 android:id="@+id/chipGroup"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="16dp"
+                android:scrollbars="none"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textViewMembersCount">
 
                 <com.google.android.material.chip.ChipGroup
-
+                    android:id="@+id/projectTagsChipGroup"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:clickable="false">
@@ -120,8 +154,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="16dp"
-                android:padding="8dp"
                 android:background="@drawable/rounded_textview"
+                android:padding="8dp"
                 android:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, whe including versions of Lorem Ipsum."
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -136,12 +170,14 @@
                 android:layout_marginTop="16dp"
                 app:layout_constraintTop_toBottomOf="@+id/textViewDescription"
                 tools:layout_editor_absoluteX="16dp">
+
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="16dp"
-                    android:src="@drawable/ic_baseline_comment_24"/>
+                    android:src="@drawable/ic_baseline_comment_24" />
+
                 <TextView
                     android:id="@+id/textViewRepliesCount"
                     android:layout_width="wrap_content"
@@ -149,7 +185,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginHorizontal="56dp"
                     android:tag="repliescount"
-                    android:text="Replies count: 14" />
+                    android:text="Количество откликов: 14" />
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
@@ -166,7 +202,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="16dp"
-                    android:src="@drawable/ic_baseline_person_24"/>
+                    android:src="@drawable/ic_baseline_person_24" />
+
                 <TextView
                     android:id="@+id/textViewContributor"
                     android:layout_width="wrap_content"
@@ -174,7 +211,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginHorizontal="56dp"
                     android:tag="contributor"
-                    android:text="Contributor: Vitaly sorokin" />
+                    android:text="Владелец: Виталий Сорокин" />
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
@@ -183,8 +220,6 @@
                 android:layout_height="56dp"
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/cardViewContributor"
                 tools:layout_editor_absoluteX="16dp">
 
@@ -193,7 +228,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="16dp"
-                    android:src="@drawable/ic_logo_github"/>
+                    android:src="@drawable/ic_logo_github" />
 
                 <TextView
                     android:id="@+id/textViewRepo"
@@ -221,7 +256,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/loginButon"
+        android:id="@+id/replyButton"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_marginStart="32dp"
