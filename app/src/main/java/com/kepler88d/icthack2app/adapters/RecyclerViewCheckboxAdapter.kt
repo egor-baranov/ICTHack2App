@@ -24,46 +24,29 @@ class RecyclerViewCheckboxAdapter(val context: Context, val map: Map<String, Lis
         }
     }
 
+    var changing = false
     inner class GroupItem(val binding: ItemCheckboxGroupBinding): RecyclerView.ViewHolder(binding.root){
         fun bind(position: Int){
-            if (binding.materialCheckBox.isChecked != list[position].checked){
-                binding.materialCheckBox.performClick()
-            }
-
             binding.materialCheckBox.text = list[position].name
-            binding.materialCheckBox.setOnCheckedChangeListener { buttonView, isChecked ->
-                Log.d("Debug checkbox", "click, $position, ")
-                list[position].checked = isChecked
+            binding.materialCheckBox.isChecked = list[position].checked
+            binding.materialCheckBox.setOnClickListener {
                 var currPos = position
-
-                while (currPos < list.size && (currPos == position || list[currPos].viewType != 1)){
-                    list[currPos].checked = isChecked
-                    Log.d("Debug checkbox", "aa: $currPos")
+                while (currPos<list.size && (position==currPos || list[currPos].viewType != 1)){
+                    Log.d("dsf", currPos.toString())
+                    list[currPos].checked = binding.materialCheckBox.isChecked
+                    notifyDataSetChanged()
                     currPos++
                 }
-                val timer = object: CountDownTimer(1, 1) {
-                    override fun onTick(millisUntilFinished: Long) {}
-                    override fun onFinish() { notifyDataSetChanged() }
-                }
-                timer.start()
-
             }
         }
     }
 
     inner class SatelliteItem(val binding: ItemCheckboxSatelliteBinding): RecyclerView.ViewHolder(binding.root){
         fun bind(position: Int){
-            if (binding.materialCheckBox.isChecked != list[position].checked){
-                binding.materialCheckBox.performClick()
-            }
             binding.materialCheckBox.text = list[position].name
-            binding.materialCheckBox.setOnCheckedChangeListener { buttonView, isChecked ->
-                var currPos = position-1
-                while (list[currPos].viewType!=1){
-                    currPos--
-                }
-                list[currPos].checked = false
-
+            binding.materialCheckBox.isChecked = list[position].checked
+            binding.materialCheckBox.setOnClickListener {
+                list[position].checked = binding.materialCheckBox.isChecked
             }
         }
     }

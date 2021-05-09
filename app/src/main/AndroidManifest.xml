@@ -15,16 +15,21 @@
         android:supportsRtl="true"
         android:theme="@style/ICTHack2App">
         <activity android:name=".activities.SplashScreenActivity">
+
+        </activity>
+
+        <activity android:name=".activities.StartActivity">
+
+        </activity>
+
+        <activity android:name=".activities.MainActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <activity android:name=".activities.StartActivity">
-        </activity>
 
-        <activity android:name=".activities.MainActivity" />
 
         <meta-data
             android:name="preloaded_fonts"
