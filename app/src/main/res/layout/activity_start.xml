@@ -329,7 +329,8 @@
                 <androidx.cardview.widget.CardView
                     android:id="@+id/card"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
+                    android:layout_height="wrap_content"
+                    android:maxHeight="200dp"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="48dp"
                     android:layout_marginEnd="16dp"
@@ -345,11 +346,12 @@
                         android:clickable="true">
 
                         <TextView
+                            android:id="@+id/textView4"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="16dp"
+                            android:layout_marginHorizontal="40dp"
                             android:layout_marginTop="16dp"
-                            android:layout_marginEnd="16dp"
+
                             android:fontFamily="@font/roboto_medium"
                             android:gravity="center"
                             android:text="На чем ты специализируешься?"
@@ -359,9 +361,17 @@
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_baseline_touch_app_24"
+                            app:layout_constraintBottom_toBottomOf="@+id/textView4"
+                            app:layout_constraintEnd_toStartOf="@+id/textView4"
+                            app:layout_constraintTop_toTopOf="@+id/textView4" />
+
                         <com.google.android.material.chip.ChipGroup
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
+                            android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
                             android:layout_marginTop="48dp"
                             android:layout_marginEnd="8dp"
