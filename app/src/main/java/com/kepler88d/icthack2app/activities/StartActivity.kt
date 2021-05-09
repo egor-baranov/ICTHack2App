@@ -6,9 +6,11 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.transition.TransitionManager
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.widget.addTextChangedListener
 import com.google.android.material.transition.platform.MaterialArcMotion
 import com.google.android.material.transition.platform.MaterialContainerTransform
 import com.google.android.material.transition.platform.MaterialFadeThrough
@@ -34,6 +36,8 @@ class StartActivity : Activity() {
         super.onCreate(savedInstanceState)
         binding = ActivityStartBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        addEdittextChangeListener()
 
         binding.registerButton.setOnClickListener {
             performPageTransition(binding.isUserLoginedScreen, binding.firstScreen)
@@ -119,6 +123,21 @@ class StartActivity : Activity() {
 
         binding.recyclerViewCheckboxes.adapter =
             RecyclerViewCheckboxAdapter(this, GlobalDataStorage.itTreeMap)
+    }
+
+    private fun addEdittextChangeListener() {
+        binding.firstNameTextField.editText?.addTextChangedListener {
+            binding.firstNameTextField.error = null
+        }
+        binding.lastNameTextField.editText?.addTextChangedListener {
+            binding.lastNameTextField.error = null
+        }
+        binding.isuIdTextField.editText?.addTextChangedListener {
+            binding.isuIdTextField.error = null
+        }
+        binding.passwordIdTextField.editText?.addTextChangedListener {
+            binding.passwordIdTextField.error = null
+        }
     }
 
     private fun login() {
