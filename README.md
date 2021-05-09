@@ -24,17 +24,7 @@
 
 ## Скриншоты 
 
-![image](https://user-images.githubusercontent.com/37942022/117571142-d26fd880-b0d5-11eb-8522-d1083a7319be.png)
-
-![image](https://user-images.githubusercontent.com/37942022/117571149-def43100-b0d5-11eb-9a34-9ce8fedd3b30.png)
-
-![image](https://user-images.githubusercontent.com/37942022/117571154-e61b3f00-b0d5-11eb-9b16-df8cc01763f0.png)
-
-![image](https://user-images.githubusercontent.com/37942022/117571160-eca9b680-b0d5-11eb-80c1-d097423fd04e.png)
-
-![image](https://user-images.githubusercontent.com/37942022/117571165-f3d0c480-b0d5-11eb-995e-4bda1f50a78d.png)
-
-
+![image](https://user-images.githubusercontent.com/49813134/117571298-aacd4000-b0d6-11eb-8a55-b512c646ed07.png)
 
 
 ## Структура приложения 
