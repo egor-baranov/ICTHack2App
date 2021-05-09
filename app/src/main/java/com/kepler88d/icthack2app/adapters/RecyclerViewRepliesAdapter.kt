@@ -14,12 +14,19 @@ class RecyclerViewRepliesAdapter(val context: Context) : RecyclerView.Adapter<Re
 
     inner class ReplyItem(val binding: ItemReplyBinding): RecyclerView.ViewHolder(binding.root){
         fun bind(position: Int){
-            binding.buttonDelete.setOnClickListener {
-                notifyItemRemoved(position)
-            }
+//            binding.buttonDelete.setOnClickListener {
+//                notifyItemRemoved(position)
+//            }
             binding.itemReply.setOnClickListener {
                 val bottomSheetBehavior = BottomSheetBehavior.from((context as MainActivity).binding.bottom.bottomSheet)
-                bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+                if(bottomSheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED){
+                    bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+                }
+                else{
+                    bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+                }
+
+
             }
             when(position%4){
                 1 -> {
