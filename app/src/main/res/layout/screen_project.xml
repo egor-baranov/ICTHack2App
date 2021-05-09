@@ -54,6 +54,7 @@
                 android:id="@+id/projectVacancyLinearLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:animateLayoutChanges="true"
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="32dp"
@@ -63,12 +64,6 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/textViewProjectName2">
-
-                <include layout="@layout/item_vacancy" />
-
-                <include layout="@layout/item_vacancy_locked" />
-
-                <include layout="@layout/item_vacancy" />
             </LinearLayout>
 
             <TextView
