@@ -26,6 +26,10 @@ import com.kepler88d.icthack2app.model.RequestWorker
 import com.kepler88d.icthack2app.model.data.Project
 import com.kepler88d.icthack2app.model.data.User
 import me.everything.android.ui.overscroll.OverScrollDecoratorHelper
+import android.os.Handler
+import android.os.Looper
+import android.view.animation.AccelerateInterpolator
+import com.google.android.material.transition.platform.MaterialFadeThrough
 
 
 class MainActivity : AppCompatActivity() {
@@ -115,10 +119,25 @@ class MainActivity : AppCompatActivity() {
         bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
         addChip("Android")
         addChip("IOS")
-        addChip("Project managment")
+        addChip("Project management")
         addChip("Machine learning")
 
         OverScrollDecoratorHelper.setUpOverScroll(binding.addProjectCardView)
+
+        binding.loadSplashScreen.visibility = View.VISIBLE
+        binding.fabAddProject.visibility = View.GONE
+        Handler(Looper.getMainLooper()).postDelayed({
+            binding.fabAddProject.visibility = View.VISIBLE
+            binding.loadSplashScreen
+                .animate()
+                .alpha(0f)
+                .setDuration(500)
+                .setInterpolator(AccelerateInterpolator())
+                .start()
+            Handler(Looper.getMainLooper()).postDelayed({
+                binding.loadSplashScreen.visibility = View.GONE
+            }, 1000)
+        }, 3000)
     }
 
     fun fillProjectInfo(projectData: Project) {
@@ -163,6 +182,15 @@ class MainActivity : AppCompatActivity() {
 
         override fun createFragment(position: Int): Fragment =
             if (position == 0) MainFragment() else NotificationsFragment()
+    }
+
+    fun performPageTransition(firstPage: View, secondPage: View) {
+        val fadeThrough = MaterialFadeThrough()
+
+        TransitionManager.beginDelayedTransition(binding.root, fadeThrough)
+
+        firstPage.visibility = View.GONE
+        secondPage.visibility = View.VISIBLE
     }
 
     fun performTransformAnimation(firstView: View, secondView: View) {

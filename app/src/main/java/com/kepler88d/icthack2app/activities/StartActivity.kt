@@ -5,9 +5,12 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.transition.TransitionManager
 import android.util.Log
 import android.view.View
+import android.view.animation.AccelerateInterpolator
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
@@ -123,6 +126,19 @@ class StartActivity : Activity() {
 
         binding.recyclerViewCheckboxes.adapter =
             RecyclerViewCheckboxAdapter(this, GlobalDataStorage.itTreeMap)
+
+        binding.loadSplashScreen.visibility = View.VISIBLE
+        Handler(Looper.getMainLooper()).postDelayed({
+            binding.loadSplashScreen
+                .animate()
+                .alpha(0f)
+                .setDuration(500)
+                .setInterpolator(AccelerateInterpolator())
+                .start()
+            Handler(Looper.getMainLooper()).postDelayed({
+                binding.loadSplashScreen.visibility = View.GONE
+            }, 1000)
+        }, 3000)
     }
 
     private fun addEdittextChangeListener() {
@@ -198,7 +214,7 @@ class StartActivity : Activity() {
         )
     }
 
-    private fun performPageTransition(firstPage: View, secondPage: View) {
+    fun performPageTransition(firstPage: View, secondPage: View) {
         val fadeThrough = MaterialFadeThrough()
 
         TransitionManager.beginDelayedTransition(binding.root, fadeThrough)
@@ -207,7 +223,7 @@ class StartActivity : Activity() {
         secondPage.visibility = View.VISIBLE
     }
 
-    private fun performTransformAnimation(firstView: View, secondView: View) {
+    fun performTransformAnimation(firstView: View, secondView: View) {
         val transform = MaterialContainerTransform().apply {
             startView = firstView
             endView = secondView

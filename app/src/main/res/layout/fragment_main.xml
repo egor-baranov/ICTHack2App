@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragmentMainRoot"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragments.MainFragment">
@@ -12,18 +13,19 @@
         android:layout_height="48dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="64dp"
-        app:cardElevation="8dp"
-        app:cardCornerRadius="@dimen/cardview_default_radius"
+        android:layout_marginEnd="128dp"
         android:background="@color/purple_500"
+        app:cardCornerRadius="@dimen/cardview_default_radius"
+        app:cardElevation="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
+
         <TextView
-            android:text="Нажми для поиска"
-            android:gravity="center"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="Нажми для поиска" />
     </androidx.cardview.widget.CardView>
 
     <ImageButton
@@ -37,7 +39,19 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <ImageButton
+        android:id="@+id/buttonUserAccount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="16dp"
+        android:background="#FFFFFF"
+        android:src="@drawable/ic_baseline_person_outline_24"
+        app:layout_constraintEnd_toStartOf="@+id/buttonNotifications"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <ScrollView
+        android:id="@+id/mainFragmentScrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="72dp"
@@ -67,7 +81,6 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/searchBox"
         android:layout_width="match_parent"
-        app:cardElevation="8dp"
         android:layout_height="300dp"
         android:layout_marginStart="24dp"
         android:layout_marginTop="24dp"
@@ -76,6 +89,7 @@
         android:foreground="?attr/selectableItemBackground"
         android:visibility="gone"
         app:cardCornerRadius="@dimen/cardview_default_radius"
+        app:cardElevation="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">

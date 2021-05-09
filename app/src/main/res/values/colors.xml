@@ -18,5 +18,5 @@
     <color name="white">#FFFFFFFF</color>
 
     <color name="text_dark">#373737</color>
-
+    <color name="material_red">#c62828</color>
 </resources>
