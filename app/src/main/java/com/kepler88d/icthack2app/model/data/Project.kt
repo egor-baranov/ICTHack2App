@@ -11,8 +11,12 @@ data class Project(
     val name: String,
     val description: String,
     val replyIdList: MutableList<Int>,
+    val tags: MutableList<String>,
     val githubProjectLink: String,
-    val ownerId: Int
+    val ownerId: Int,
+    val contributorListId: List<Int>,
+    val vacancy: Map<String, Int>,
+    val freeVacancy: Map<String, Int>
 ) {
     fun toJson(): JSONObject = JSONObject(toJsonString())
     private fun toJsonString(): String = GsonBuilder().create().toJson(this)

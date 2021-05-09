@@ -43,7 +43,7 @@ class RecyclerViewMainAdapter(val activity: MainActivity, val list: List<Project
                 binding.cardViewProject.isClickable = true
             }
 
-            binding.textViewTitle.text = "${list[position].name} id: ${list[position].id}"
+            binding.textViewTitle.text = list[position].name
             binding.textViewDescription.text = list[position].description
         }
     }
