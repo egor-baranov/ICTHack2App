@@ -1,9 +1,7 @@
 package com.kepler88d.icthack2app.activities
 
 import android.app.AlertDialog
-import android.content.Intent
 import android.graphics.Color
-import android.net.Uri
 import android.os.Bundle
 import android.transition.TransitionManager
 import android.view.LayoutInflater
@@ -130,17 +128,6 @@ class MainActivity : AppCompatActivity() {
         addChip("Machine learning")
 
         OverScrollDecoratorHelper.setUpOverScroll(binding.addProjectScreen.addProjectCardView)
-        binding.bottom.buttonClose.setOnClickListener {
-            bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-        }
-
-        binding.bottom.textViewTelegram.setOnClickListener {
-            val telegram = Intent(Intent.ACTION_VIEW, Uri.parse("https://t.me/${binding.bottom.textViewTelegram.text}"))
-            telegram.setPackage("org.telegram.messenger")
-            startActivity(telegram)
-        }
-
-        OverScrollDecoratorHelper.setUpOverScroll(binding.addProjectCardView)
 
         binding.loadSplashScreen.visibility = View.VISIBLE
         binding.fabAddProject.visibility = View.GONE
