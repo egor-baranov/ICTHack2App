@@ -14,6 +14,7 @@ import android.view.animation.AccelerateInterpolator
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
+import com.google.android.material.chip.Chip
 import com.google.android.material.transition.platform.MaterialArcMotion
 import com.google.android.material.transition.platform.MaterialContainerTransform
 import com.google.android.material.transition.platform.MaterialFadeThrough
@@ -34,6 +35,7 @@ enum class StartActivityScreen {
 class StartActivity : Activity() {
     private lateinit var binding: ActivityStartBinding
     private var currentScreen = StartActivityScreen.DOES_ACCOUNT_EXIST
+    lateinit var adapter: RecyclerViewCheckboxAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,6 +52,18 @@ class StartActivity : Activity() {
         binding.loginButon.setOnClickListener {
             performPageTransition(binding.isUserLoginedScreen, binding.loginScreen)
             currentScreen = StartActivityScreen.LOGIN_SCREEN
+        }
+
+        binding.buttonAcceptSpecializes.setOnClickListener {
+            performTransformAnimation(binding.specializationList, binding.card)
+            binding.chipgrougStart.removeAllViews()
+            adapter.list.forEach {
+                if(it.checked){
+                    val chip = Chip(this)
+                    chip.text = it.name
+                    binding.chipgrougStart.addView(chip)
+                }
+            }
         }
 
         binding.materialButton.setOnClickListener {
@@ -124,8 +138,8 @@ class StartActivity : Activity() {
             binding.recyclerViewCheckboxes, OverScrollDecoratorHelper.ORIENTATION_VERTICAL
         )
 
-        binding.recyclerViewCheckboxes.adapter =
-            RecyclerViewCheckboxAdapter(this, GlobalDataStorage.itTreeMap)
+        adapter =  RecyclerViewCheckboxAdapter(this, GlobalDataStorage.itTreeMap)
+        binding.recyclerViewCheckboxes.adapter = adapter
 
         binding.loadSplashScreen.visibility = View.VISIBLE
         Handler(Looper.getMainLooper()).postDelayed({
