@@ -18,5 +18,10 @@
     <color name="white">#FFFFFFFF</color>
 
     <color name="text_dark">#373737</color>
+    
+    <color name="state_request">#5ABFAA</color>
+    <color name="state_waiting">#FFA600</color>
+    <color name="state_accepted">#63BF58</color>
+    <color name="state_rejected">#E63627</color>
 
 </resources>
