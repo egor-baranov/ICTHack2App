@@ -42,9 +42,9 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-//        openFileInput("userData").use {
-//            userData = User.fromJsonString(it.readBytes().toString(Charsets.UTF_8))
-//        }
+        openFileInput("userData").use {
+            userData = User.fromJsonString(it.readBytes().toString(Charsets.UTF_8))
+        }
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -55,10 +55,10 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.fabAddProject.setOnClickListener {
-            performTransformAnimation(binding.fabAddProject, binding.addProjectCardView)
+            performTransformAnimation(binding.fabAddProject, binding.addProjectScreen.root)
         }
 
-        binding.addMemberButton.setOnClickListener {
+        binding.addProjectScreen.addMemberButton.setOnClickListener {
             AlertDialog.Builder(this)
                 .setTitle("Выберите вакансию для добавления")
                 .setItems(GlobalDataStorage.itTreeMap.keys.toTypedArray()) { dialog, which ->
@@ -81,9 +81,11 @@ class MainActivity : AppCompatActivity() {
                                     newVacancy.findViewWithTag<CardView>("clickableCard")
                                         .setOnClickListener {
                                             projectVacancyList.remove(GlobalDataStorage.itTreeMap[selectedKey]!![which1])
-                                            binding.vacancyHolderLayout.removeView(newVacancy)
+                                            binding.addProjectScreen.vacancyHolderLayout.removeView(
+                                                newVacancy
+                                            )
                                         }
-                                    binding.vacancyHolderLayout.addView(newVacancy)
+                                    binding.addProjectScreen.vacancyHolderLayout.addView(newVacancy)
                                 }
                             }
                             .create().show()
@@ -92,19 +94,22 @@ class MainActivity : AppCompatActivity() {
                 .create().show()
         }
 
-        binding.createProjectButton.setOnClickListener {
+        binding.addProjectScreen.createProjectButton.setOnClickListener {
             val dialog = AlertDialog.Builder(this)
-                .setMessage("Подтвердить создание проекта ${binding.descriptionInputField.editText!!.text}?")
+                .setMessage("Подтвердить создание проекта ${binding.addProjectScreen.descriptionInputField.editText!!.text}?")
                 .setNegativeButton("Отмена") { dialog, which -> run {} }
                 .setPositiveButton("Да, подтвердить") { dialog, which ->
                     run {
                         RequestWorker.addProject(
-                            name = binding.projectNameInputField.editText!!.text.toString(),
-                            description = binding.projectNameInputField.editText!!.text.toString(),
-                            githubProjectLink = binding.githubRepoLinkInputField.editText!!.text.toString(),
+                            name = binding.addProjectScreen.projectNameInputField.editText!!.text.toString(),
+                            description = binding.addProjectScreen.projectNameInputField.editText!!.text.toString(),
+                            githubProjectLink = binding.addProjectScreen.githubRepoLinkInputField.editText!!.text.toString(),
                             ownerId = userData.id
                         )
-                        performTransformAnimation(binding.addProjectCardView, binding.fabAddProject)
+                        performTransformAnimation(
+                            binding.addProjectScreen.root,
+                            binding.fabAddProject
+                        )
                     }
                 }.create()
             dialog.show()
@@ -112,8 +117,8 @@ class MainActivity : AppCompatActivity() {
             dialog.getButton(AlertDialog.BUTTON_NEGATIVE).isAllCaps = false
         }
 
-        binding.buttonCloseAddProject.setOnClickListener {
-            performTransformAnimation(binding.addProjectCardView, binding.fabAddProject)
+        binding.addProjectScreen.buttonCloseAddProject.setOnClickListener {
+            performTransformAnimation(binding.addProjectScreen.root, binding.fabAddProject)
         }
 
         addFabAnimation()
@@ -124,6 +129,7 @@ class MainActivity : AppCompatActivity() {
         addChip("Project management")
         addChip("Machine learning")
 
+        OverScrollDecoratorHelper.setUpOverScroll(binding.addProjectScreen.addProjectCardView)
         binding.bottom.buttonClose.setOnClickListener {
             bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
         }
