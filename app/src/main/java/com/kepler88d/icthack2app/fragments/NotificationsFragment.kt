@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.kepler88d.icthack2app.R
+import com.kepler88d.icthack2app.activities.MainActivity
 import com.kepler88d.icthack2app.adapters.RecyclerViewRepliesAdapter
 import com.kepler88d.icthack2app.databinding.FragmentNotificationsBinding
 
@@ -22,10 +23,6 @@ class NotificationsFragment : Fragment(R.layout.fragment_notifications) {
     ): View {
         binding = FragmentNotificationsBinding.inflate(layoutInflater)
 
-//        for (i in 1..10) {
-//            addNotificationView("Notification №$i")
-//        }
-
         return binding.root
     }
 
@@ -33,6 +30,13 @@ class NotificationsFragment : Fragment(R.layout.fragment_notifications) {
         super.onViewCreated(view, savedInstanceState)
         adapter = RecyclerViewRepliesAdapter(context!!)
         binding.recyclerviewNotifications.adapter = adapter
+        addBackButtonListener()
+    }
+
+    private fun addBackButtonListener() {
+        binding.buttonBack.setOnClickListener {
+            (activity as MainActivity).binding.viewpagerMain.setCurrentItem(0, true)
+        }
     }
 
     private fun addNotificationView(headerText: String) {
