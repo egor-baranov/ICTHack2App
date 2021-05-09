@@ -3,7 +3,7 @@
     <style name="ICTHack2App" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/indigo_700</item>
-        <item name="colorPrimaryVariant">@color/indigo_700_dark</item>
+        <item name="colorPrimaryVariant">@color/white</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/deep_purple_800_light</item>
