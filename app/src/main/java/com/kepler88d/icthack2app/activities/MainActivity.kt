@@ -198,6 +198,7 @@ class MainActivity : AppCompatActivity() {
         else if(currentOpened == OPENED_SEARCH_BAR){
             val fragment =
                 this.supportFragmentManager.findFragmentByTag("f0")
+                this.supportFragmentManager.findFragmentByTag("f0")
             Log.d("sdzf", fragment?.javaClass?.simpleName.toString())
             (fragment as IOnBackPressed).onBackPressed()
         }
@@ -219,6 +220,9 @@ class MainActivity : AppCompatActivity() {
         else if(currentOpened == OPENED_BOTTOM_SHEET){
             currentOpened = OPENED_NOTIFICATIONS
             bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+        }
+        else{
+            this.finish()
         }
 
     }
@@ -311,10 +315,6 @@ class MainActivity : AppCompatActivity() {
     private fun addChip(str: String) {
         val chip = Chip(this)
         chip.text = str
-//        chip.setChipBackgroundColorResource(R.color.background_dark)
-////        chip.isCloseIconVisible = true
-//        chip.setTextColor(resources.getColor(R.color.white))
-////        chip.setTextAppearance(R.style.ChipTextAppearance)
         binding.bottom.chipGroupSkills.addView(chip)
     }
 
