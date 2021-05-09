@@ -92,6 +92,9 @@ class MainActivity : AppCompatActivity() {
                 .create().show()
         }
 
+
+
+
         binding.addProjectScreen.createProjectButton.setOnClickListener {
             val dialog = AlertDialog.Builder(this)
                 .setMessage("Подтвердить создание проекта ${binding.addProjectScreen.descriptionInputField.editText!!.text}?")
@@ -115,6 +118,8 @@ class MainActivity : AppCompatActivity() {
             dialog.getButton(AlertDialog.BUTTON_NEGATIVE).isAllCaps = false
         }
 
+
+
         binding.addProjectScreen.buttonCloseAddProject.setOnClickListener {
             performTransformAnimation(binding.addProjectScreen.root, binding.fabAddProject)
         }
@@ -127,6 +132,10 @@ class MainActivity : AppCompatActivity() {
         addChip("Project management")
         addChip("Machine learning")
 
+
+        binding.bottom.buttonClose.setOnClickListener {
+            bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+        }
         OverScrollDecoratorHelper.setUpOverScroll(binding.addProjectScreen.addProjectCardView)
 
         binding.loadSplashScreen.visibility = View.VISIBLE
