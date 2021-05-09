@@ -370,6 +370,7 @@
                             app:layout_constraintTop_toTopOf="@+id/textView4" />
 
                         <com.google.android.material.chip.ChipGroup
+                            android:id="@+id/chipgrougStart"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
@@ -381,40 +382,7 @@
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent">
 
-                            <com.google.android.material.chip.Chip
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Web-разработка" />
 
-                            <com.google.android.material.chip.Chip
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="UI/UX" />
-
-                            <com.google.android.material.chip.Chip
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Data Science" />
-
-                            <com.google.android.material.chip.Chip
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Computer Science" />
-
-                            <com.google.android.material.chip.Chip
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Java" />
-
-                            <com.google.android.material.chip.Chip
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="C++" />
-
-                            <com.google.android.material.chip.Chip
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Python" />
                         </com.google.android.material.chip.ChipGroup>
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </androidx.cardview.widget.CardView>
@@ -425,12 +393,12 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:layout_marginTop="296dp"
                     android:layout_marginEnd="16dp"
+                    android:layout_marginTop="32dp"
                     android:hint="Ссылка на профиль GitHub"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/header2"
+                    app:layout_constraintTop_toBottomOf="@+id/card"
                     app:prefixText="https://github.com/">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -531,20 +499,31 @@
 
                 <TextView
                     android:id="@+id/header3"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="48dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="16dp"
-                    android:layout_marginEnd="16dp"
                     android:fontFamily="@font/roboto_medium"
                     android:gravity="center"
-                    android:text="Выбери специализации из списка"
-                    android:textAlignment="center"
+                    android:text="Выбери специализации"
                     android:textColor="@color/black"
-                    android:textSize="18sp"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toStartOf="@+id/buttonAcceptSpecializes"
+
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                     />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/buttonAcceptSpecializes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:text="Далее"
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/header3"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/header3" />
 
                 <ScrollView
                     android:id="@+id/specListScrollView"
