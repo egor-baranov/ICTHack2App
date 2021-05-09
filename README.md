@@ -147,4 +147,7 @@
     │   ├── strings.xml
     │   └── themes.xml
     └── values-night
-        └── themes.xml```
+        └── themes.xml
+```
+## Link to the server repository
+https://github.com/egor-baranov/ICTHack2Server
