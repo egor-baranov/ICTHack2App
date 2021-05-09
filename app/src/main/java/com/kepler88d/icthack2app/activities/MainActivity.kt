@@ -1,7 +1,9 @@
 package com.kepler88d.icthack2app.activities
 
 import android.app.AlertDialog
+import android.content.Intent
 import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
 import android.transition.TransitionManager
 import android.view.LayoutInflater
@@ -40,9 +42,9 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        openFileInput("userData").use {
-            userData = User.fromJsonString(it.readBytes().toString(Charsets.UTF_8))
-        }
+//        openFileInput("userData").use {
+//            userData = User.fromJsonString(it.readBytes().toString(Charsets.UTF_8))
+//        }
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -121,6 +123,16 @@ class MainActivity : AppCompatActivity() {
         addChip("IOS")
         addChip("Project management")
         addChip("Machine learning")
+
+        binding.bottom.buttonClose.setOnClickListener {
+            bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+        }
+
+        binding.bottom.textViewTelegram.setOnClickListener {
+            val telegram = Intent(Intent.ACTION_VIEW, Uri.parse("https://t.me/${binding.bottom.textViewTelegram.text}"))
+            telegram.setPackage("org.telegram.messenger")
+            startActivity(telegram)
+        }
 
         OverScrollDecoratorHelper.setUpOverScroll(binding.addProjectCardView)
 
