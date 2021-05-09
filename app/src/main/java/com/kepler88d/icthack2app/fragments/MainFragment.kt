@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AccelerateInterpolator
 import androidx.fragment.app.Fragment
 import com.kepler88d.icthack2app.R
 import com.kepler88d.icthack2app.activities.MainActivity
@@ -12,6 +13,7 @@ import com.kepler88d.icthack2app.adapters.RecyclerViewMainAdapter
 import com.kepler88d.icthack2app.databinding.FragmentMainBinding
 import com.kepler88d.icthack2app.model.RequestWorker
 import com.kepler88d.icthack2app.model.data.Project
+import me.everything.android.ui.overscroll.OverScrollDecoratorHelper
 
 class MainFragment : Fragment(R.layout.fragment_main) {
     lateinit var binding: FragmentMainBinding
@@ -42,6 +44,30 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             (requireActivity() as MainActivity).performTransformAnimation(
                 binding.searchBox,
                 binding.searchField
+            )
+        }
+
+        OverScrollDecoratorHelper.setUpOverScroll(
+            (requireActivity() as MainActivity).binding.projectScreen.nestedScrollView
+        )
+        OverScrollDecoratorHelper.setUpOverScroll(
+            (requireActivity() as MainActivity).binding.profileScreen.rootScrollView
+        )
+        OverScrollDecoratorHelper.setUpOverScroll(
+            binding.mainFragmentScrollView
+        )
+
+        binding.buttonUserAccount.setOnClickListener {
+            (requireActivity() as MainActivity).performPageTransition(
+                binding.fragmentMainRoot,
+                (requireActivity() as MainActivity).binding.profileScreen.root
+            )
+        }
+
+        (requireActivity() as MainActivity).binding.profileScreen.backFromProfilePageButton.setOnClickListener {
+            (requireActivity() as MainActivity).performPageTransition(
+                (requireActivity() as MainActivity).binding.profileScreen.root,
+                binding.fragmentMainRoot
             )
         }
 
