@@ -36,6 +36,7 @@ class StartActivity : Activity() {
     private lateinit var binding: ActivityStartBinding
     private var currentScreen = StartActivityScreen.DOES_ACCOUNT_EXIST
     lateinit var adapter: RecyclerViewCheckboxAdapter
+    val listSkills = mutableListOf<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,6 +60,7 @@ class StartActivity : Activity() {
             binding.chipgrougStart.removeAllViews()
             adapter.list.forEach {
                 if(it.checked){
+                    listSkills.add(it.name)
                     val chip = Chip(this)
                     chip.text = it.name
                     binding.chipgrougStart.addView(chip)

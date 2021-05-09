@@ -277,6 +277,17 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        binding.projectScreen.cardViewRepo.setOnClickListener {
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(binding.projectScreen.textViewRepo.text.toString()))
+            startActivity(intent)
+        }
+
+        binding.projectScreen.cardViewContributor.setOnClickListener {
+            bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+            binding.bottom.buttonReject.visibility = View.INVISIBLE
+            binding.bottom.buttonAccept.visibility = View.INVISIBLE
+        }
+
         binding.projectScreen.textViewRepliesCount.text =
             "Количество откликов: ${projectData.replyIdList.size}"
         RequestWorker.getUserById(projectData.ownerId, ({ user: User ->
