@@ -8,11 +8,9 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.transition.TransitionManager
-import android.util.Log
 import android.view.View
 import android.view.animation.AccelerateInterpolator
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
 import com.google.android.material.chip.Chip
 import com.google.android.material.transition.platform.MaterialArcMotion
@@ -140,7 +138,7 @@ class StartActivity : Activity() {
             binding.recyclerViewCheckboxes, OverScrollDecoratorHelper.ORIENTATION_VERTICAL
         )
 
-        adapter =  RecyclerViewCheckboxAdapter(this, GlobalDataStorage.itTreeMap)
+        adapter =  RecyclerViewCheckboxAdapter(GlobalDataStorage.itTreeMap)
         binding.recyclerViewCheckboxes.adapter = adapter
 
         binding.loadSplashScreen.visibility = View.VISIBLE

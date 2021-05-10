@@ -34,28 +34,30 @@ import android.util.Log
 import android.view.animation.AccelerateInterpolator
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.google.android.material.chip.ChipDrawable
+import com.google.android.material.textfield.TextInputLayout
 import com.google.android.material.transition.platform.MaterialFadeThrough
-
-
-var currentOpened = MainActivity.OPENED_NOTHING
-
 
 class MainActivity : AppCompatActivity() {
 
-    public companion object Elements {
-        val OPENED_NOTHING = 0
-        val OPENED_ADDING_PROJECT = 1
-        val OPENED_PROJECT_SCREEN = 2
-        val OPENED_SEARCH_BAR = 3
-        val OPENED_BOTTOM_SHEET = 4
-        val OPENED_PROFILE = 5
-        val OPENED_NOTIFICATIONS = 6
+    enum class UiContext {
+        OPENED_NOTHING,
+        OPENED_ADDING_PROJECT,
+        OPENED_PROJECT_SCREEN,
+        OPENED_SEARCH_BAR,
+        OPENED_BOTTOM_SHEET,
+        OPENED_PROFILE,
+        OPENED_NOTIFICATIONS
     }
+
+    var uiContext: UiContext = UiContext.OPENED_NOTHING
 
     lateinit var binding: ActivityMainBinding
     lateinit var userData: User
     lateinit var bottomSheetBehavior: BottomSheetBehavior<ConstraintLayout>
     private val projectVacancyList = mutableListOf<String>()
+
+    fun TextInputLayout.text(): String = this.editText!!.text.toString()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,20 +75,19 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.fabAddProject.setOnClickListener {
-            currentOpened = OPENED_ADDING_PROJECT
-            Log.d("debugCheckOpened", "c: $currentOpened")
+            uiContext = UiContext.OPENED_ADDING_PROJECT
             performTransformAnimation(binding.fabAddProject, binding.addProjectScreen.root)
         }
 
         binding.addProjectScreen.addMemberButton.setOnClickListener {
             AlertDialog.Builder(this)
                 .setTitle("Выберите вакансию для добавления")
-                .setItems(GlobalDataStorage.itTreeMap.keys.toTypedArray()) { dialog, which ->
+                .setItems(GlobalDataStorage.itTreeMap.keys.toTypedArray()) { _, which ->
                     run {
                         val selectedKey = GlobalDataStorage.itTreeMap.keys.toList()[which]
                         AlertDialog.Builder(this)
                             .setTitle(selectedKey)
-                            .setItems(GlobalDataStorage.itTreeMap[selectedKey]!!.toTypedArray()) { dialog, which1 ->
+                            .setItems(GlobalDataStorage.itTreeMap[selectedKey]!!.toTypedArray()) { _, which1 ->
                                 run {
                                     val newVacancy =
                                         LayoutInflater.from(this).inflate(
@@ -94,13 +95,19 @@ class MainActivity : AppCompatActivity() {
                                             null,
                                             false
                                         )
-                                    projectVacancyList.add(GlobalDataStorage.itTreeMap[selectedKey]!![which1])
+                                    projectVacancyList.add(
+                                        GlobalDataStorage.itTreeMap[selectedKey]!![which1]
+                                    )
                                     newVacancy.findViewWithTag<TextView>("text").text =
                                         GlobalDataStorage.itTreeMap[selectedKey]!![which1]
 
                                     newVacancy.findViewWithTag<CardView>("clickableCard")
                                         .setOnClickListener {
-                                            projectVacancyList.remove(GlobalDataStorage.itTreeMap[selectedKey]!![which1])
+                                            projectVacancyList
+                                                .remove(
+                                                    GlobalDataStorage
+                                                        .itTreeMap[selectedKey]!![which1]
+                                                )
                                             binding.addProjectScreen.vacancyHolderLayout.removeView(
                                                 newVacancy
                                             )
@@ -118,14 +125,14 @@ class MainActivity : AppCompatActivity() {
         binding.addProjectScreen.createProjectButton.setOnClickListener {
 
             binding.addProjectScreen.projectNameInputField.error =
-                if (binding.addProjectScreen.projectNameInputField.editText!!.text.isEmpty())
-                    "Название проекта не может быть пустой строкой" else null
+                if (binding.addProjectScreen.projectNameInputField.text().isEmpty())
+                    "Добавьте название проекта" else null
             binding.addProjectScreen.descriptionInputField.error =
-                if (binding.addProjectScreen.descriptionInputField.editText!!.text.isEmpty())
-                    "Описание проекта не может быть пустой строкой" else null
+                if (binding.addProjectScreen.descriptionInputField.text().isEmpty())
+                    "Заполните описание проекта" else null
             binding.addProjectScreen.githubRepoLinkInputField.error =
-                if (binding.addProjectScreen.githubRepoLinkInputField.editText!!.text.isEmpty())
-                    "Добавьте ссылку на репозиторий проекта" else null
+                if (binding.addProjectScreen.githubRepoLinkInputField.text().isEmpty())
+                    "Добавьте ссылку на GitHub-репозиторий проекта" else null
 
             if (projectVacancyList.isEmpty()) {
                 val dialog = AlertDialog.Builder(this)
@@ -137,13 +144,17 @@ class MainActivity : AppCompatActivity() {
             }
 
             val dialog = AlertDialog.Builder(this)
-                .setMessage("Подтвердить создание проекта ${binding.addProjectScreen.projectNameInputField.editText!!.text}?")
-                .setNegativeButton("Отмена") { dialog, which -> run {} }
-                .setPositiveButton("Да, подтвердить") { dialog, which ->
+                .setMessage(
+                    "Подтвердить создание проекта ${
+                        binding.addProjectScreen.projectNameInputField.text()
+                    }?"
+                )
+                .setNegativeButton("Отмена") { _, _ -> run {} }
+                .setPositiveButton("Да, подтвердить") { _, _ ->
                     run {
                         RequestWorker.addProject(
-                            name = binding.addProjectScreen.projectNameInputField.editText!!.text.toString(),
-                            description = binding.addProjectScreen.descriptionInputField.editText!!.text.toString(),
+                            name = binding.addProjectScreen.projectNameInputField.text(),
+                            description = binding.addProjectScreen.descriptionInputField.text(),
                             githubProjectLink = "https://github.com/" +
                                     binding
                                         .addProjectScreen
@@ -173,18 +184,15 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.addProjectScreen.buttonCloseAddProject.setOnClickListener {
-            currentOpened = OPENED_NOTHING
-            Log.d("debugCheckOpened", "c: $currentOpened")
+            uiContext = UiContext.OPENED_NOTHING
             performTransformAnimation(binding.addProjectScreen.root, binding.fabAddProject)
         }
 
         addFabAnimation()
         bottomSheetBehavior = BottomSheetBehavior.from(binding.bottom.bottomSheet)
         bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-        addChip("Android")
-        addChip("IOS")
-        addChip("Project management")
-        addChip("Machine learning")
+
+        addChips(listOf("Android", "IOS", "Project management", "Machine learning"))
 
         binding.bottom.textViewTelegram.setOnClickListener {
             val telegram = Intent(
@@ -195,8 +203,7 @@ class MainActivity : AppCompatActivity() {
             startActivity(telegram)
         }
         binding.bottom.buttonClose.setOnClickListener {
-            currentOpened = OPENED_NOTIFICATIONS
-            Log.d("debugCheckOpened", "c: $currentOpened")
+            uiContext = UiContext.OPENED_NOTIFICATIONS
             bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
         }
         OverScrollDecoratorHelper.setUpOverScroll(binding.addProjectScreen.addProjectCardView)
@@ -220,37 +227,27 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        Log.d("debugCheckOpened", "cc: $currentOpened")
-        if (currentOpened == OPENED_ADDING_PROJECT) {
-            currentOpened = OPENED_NOTHING
-            performTransformAnimation(binding.addProjectScreen.root, binding.fabAddProject)
+        when (uiContext) {
+            UiContext.OPENED_ADDING_PROJECT -> {
+                uiContext = UiContext.OPENED_NOTHING
+                performTransformAnimation(binding.addProjectScreen.root, binding.fabAddProject)
+            }
 
-        } else if (currentOpened == OPENED_SEARCH_BAR) {
-            val fragment =
-                this.supportFragmentManager.findFragmentByTag("f0")
-                this.supportFragmentManager.findFragmentByTag("f0")
-            Log.d("sdzf", fragment?.javaClass?.simpleName.toString())
-            (fragment as IOnBackPressed).onBackPressed()
-        } else if (currentOpened == OPENED_PROJECT_SCREEN) {
-            val fragment =
-                this.supportFragmentManager.findFragmentByTag("f0")
-            Log.d("sdzf", fragment?.javaClass?.simpleName.toString())
-            (fragment as IOnBackPressed).onBackPressed()
-        } else if (currentOpened == OPENED_PROFILE) {
-            val fragment =
-                this.supportFragmentManager.findFragmentByTag("f0")
-            Log.d("sdzf", fragment?.javaClass?.simpleName.toString())
-            (fragment as IOnBackPressed).onBackPressed()
-        } else if (currentOpened == OPENED_NOTIFICATIONS) {
-            binding.viewpagerMain.setCurrentItem(0, true)
-        } else if (currentOpened == OPENED_BOTTOM_SHEET) {
-            currentOpened = OPENED_NOTIFICATIONS
-            bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-        }
-        else{
-            this.finish()
-        }
+            UiContext.OPENED_PROJECT_SCREEN,
+            UiContext.OPENED_PROFILE, UiContext.OPENED_SEARCH_BAR ->
+                (supportFragmentManager.findFragmentByTag("f0") as IOnBackPressed)
+                    .onBackPressed()
 
+            UiContext.OPENED_NOTIFICATIONS ->
+                binding.viewpagerMain.setCurrentItem(0, true)
+
+            UiContext.OPENED_BOTTOM_SHEET -> {
+                uiContext = UiContext.OPENED_NOTIFICATIONS
+                bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+            }
+
+            else -> this.onBackPressed()
+        }
     }
 
     fun fillProjectInfo(projectData: Project) {
@@ -267,7 +264,8 @@ class MainActivity : AppCompatActivity() {
                 newView.findViewWithTag<TextView>("text").text = e.key
                 binding.projectScreen.projectVacancyLinearLayout.addView(newView)
             }
-            for (i in 0 until projectData.vacancy[e.key]!! - projectData.freeVacancy.getOrElse(e.key) { 0 }) {
+            for (i in 0 until projectData.vacancy[e.key]!! -
+                    projectData.freeVacancy.getOrElse(e.key) { 0 }) {
                 val newView =
                     LayoutInflater.from(this).inflate(
                         R.layout.item_vacancy_locked, null, false
@@ -278,8 +276,12 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.projectScreen.cardViewRepo.setOnClickListener {
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(binding.projectScreen.textViewRepo.text.toString()))
-            startActivity(intent)
+            startActivity(
+                Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse(binding.projectScreen.textViewRepo.text.toString())
+                )
+            )
         }
 
         binding.projectScreen.cardViewContributor.setOnClickListener {
@@ -307,8 +309,6 @@ class MainActivity : AppCompatActivity() {
     private fun addFabAnimation() {
         binding.viewpagerMain.registerOnPageChangeCallback(object :
             ViewPager2.OnPageChangeCallback() {
-            var currentPage = binding.viewpagerMain.currentItem
-
             override fun onPageScrolled(
                 position: Int,
                 positionOffset: Float,
@@ -320,20 +320,16 @@ class MainActivity : AppCompatActivity() {
                     hideFab(positionOffset)
                 } else {
                     showFab(positionOffset)
-
                 }
             }
 
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
-                if (position == 1) {
-                    currentOpened = OPENED_NOTIFICATIONS
-                    Log.d("debugCheckOpened", "c: $currentOpened")
+                uiContext = if (position == 1) {
+                    UiContext.OPENED_NOTIFICATIONS
                 } else {
-                    currentOpened = OPENED_NOTHING
-                    Log.d("debugCheckOpened", "c: $currentOpened")
+                    UiContext.OPENED_NOTHING
                 }
-                currentPage = position
             }
         })
     }
@@ -381,12 +377,12 @@ class MainActivity : AppCompatActivity() {
         secondView.visibility = View.VISIBLE
     }
 
-    private fun addChip(str: String) {
-        val chip = Chip(this)
-        chip.text = str
-        binding.bottom.chipGroupSkills.addView(chip)
-    }
-
+    private fun addChips(list: List<String>) =
+        list.forEach {
+            val chip = Chip(this)
+            chip.text = it
+            binding.bottom.chipGroupSkills.addView(chip)
+        }
 }
 
 
