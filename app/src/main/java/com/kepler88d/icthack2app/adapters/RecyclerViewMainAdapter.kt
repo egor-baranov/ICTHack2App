@@ -28,7 +28,6 @@ class RecyclerViewMainAdapter(val activity: MainActivity, val list: List<Project
                 activity.binding.fabAddProject.visibility = View.GONE
 
                 activity.binding.projectScreen.buttonBack.setOnClickListener {
-
                     activity.performTransformAnimation(
                         activity.binding.projectScreen.root,
                         binding.cardViewProject
@@ -37,13 +36,13 @@ class RecyclerViewMainAdapter(val activity: MainActivity, val list: List<Project
                 }
             }
 
-            binding.cardViewProject.isClickable = position != list.size
-            binding.cardViewProject.visibility =
-                if (position == list.size) View.INVISIBLE else View.VISIBLE
-
             if (position == list.size) {
                 binding.cardViewProject.visibility = View.INVISIBLE
+                binding.cardViewProject.isClickable = false
                 return
+            } else {
+                binding.cardViewProject.visibility = View.VISIBLE
+                binding.cardViewProject.isClickable = true
             }
 
             binding.textViewTitle.text = list[position].name

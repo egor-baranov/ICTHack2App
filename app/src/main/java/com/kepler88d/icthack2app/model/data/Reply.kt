@@ -1,6 +1,7 @@
 package com.kepler88d.icthack2app.model.data
 
 import com.google.gson.GsonBuilder
+import com.kepler88d.icthack2app.model.enumerations.ReplyStatus
 import kotlinx.serialization.Serializable
 import org.json.JSONObject
 
@@ -10,6 +11,8 @@ data class Reply(
     val text: String,
     val projectId: Int,
     val authorId: Int,
+    val vacancy: String,
+    val status: ReplyStatus
 ) {
     fun toJson(): JSONObject = JSONObject(toJsonString())
     private fun toJsonString(): String = GsonBuilder().create().toJson(this)
@@ -18,6 +21,6 @@ data class Reply(
         fun fromJson(jsonObject: JSONObject): Reply =
             GsonBuilder().create().fromJson(jsonObject.toString(), Reply::class.java)
 
-        fun fromJsonString(jsonString: String): User = User.fromJson(JSONObject(jsonString))
+        fun fromJsonString(jsonString: String): Reply = Reply.fromJson(JSONObject(jsonString))
     }
 }
