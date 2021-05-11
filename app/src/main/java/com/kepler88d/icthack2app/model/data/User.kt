@@ -15,7 +15,9 @@ data class User(
     val rating: Float,
     val specialization: UserSpecialization,
     val githubProfileLink: String,
+    val tgLink: String
 ) {
+    fun fullName(): String = "$firstName $lastName"
     fun toJson(): JSONObject = JSONObject(toJsonString())
     private fun toJsonString(): String = GsonBuilder().create().toJson(this)
 
