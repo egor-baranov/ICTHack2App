@@ -9,8 +9,8 @@
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewpagerMain"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:overScrollMode="never" />
+        android:overScrollMode="never"
+        android:layout_height="match_parent" />
 
     <include
         android:id="@+id/addProjectScreen"
@@ -37,7 +37,8 @@
 
     <include
         android:id="@+id/bottom"
-        layout="@layout/layout_bottom_sheet_person" />
+        layout="@layout/layout_bottom_sheet_person"
+        android:visibility="visible" />
 
     <include
         android:id="@+id/profileScreen"
@@ -52,7 +53,24 @@
         android:clickable="false"
         android:visibility="gone">
 
+        <TextView
+            android:id="@+id/welcomeBackString"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginBottom="64dp"
+            android:fontFamily="@font/roboto_medium"
+            android:text="С возвращением, Егор"
+            android:textAlignment="center"
+            android:textColor="@color/text_dark"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toTopOf="@+id/launcherImage"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
         <ImageView
+            android:id="@+id/launcherImage"
             android:layout_width="200dp"
             android:layout_height="200dp"
             android:background="@mipmap/ic_launcher"
@@ -60,6 +78,22 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/randomInfoString"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="64dp"
+            android:layout_marginEnd="24dp"
+            android:fontFamily="@font/roboto_medium"
+            android:text="Приложение, заслужившее предпоследнее место на хакатоне ICTHack#2"
+            android:textAlignment="center"
+            android:textColor="@color/text_dark"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/launcherImage" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
