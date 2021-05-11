@@ -26,5 +26,9 @@ class GlobalDataStorage {
             ),
             "Дизайн" to listOf("Web-дизайн", "UI/UX", "Промышленный дизайн")
         )
+
+        val randomSplashScreenText: List<String> = listOf(
+            "Приложение, заслуженно занявшее предпоследнее место на хакатоне ICTHack#2"
+        )
     }
 }
