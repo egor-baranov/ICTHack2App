@@ -29,7 +29,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="64dp"
         android:text="Vitaly Sorokin"
         android:textColor="@color/text_dark"
         android:textSize="20sp"
@@ -41,12 +41,12 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginEnd="16dp"
         android:fontFamily="@font/roboto_light"
         android:text="Рейтинг 3.7"
         android:textSize="20dp"
         app:layout_constraintBottom_toBottomOf="@+id/textViewNameBottom"
-        app:layout_constraintStart_toEndOf="@+id/textViewNameBottom"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/textViewNameBottom" />
 
     <HorizontalScrollView
@@ -117,22 +117,27 @@
     <com.google.android.material.button.MaterialButton
         android:id="@+id/buttonReject"
         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-        android:layout_width="match_parent"
+        android:layout_width="150dp"
         android:layout_height="60dp"
         android:layout_marginHorizontal="32dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
+        android:layout_marginBottom="16dp"
         android:text="Отклонить"
-        app:layout_constraintTop_toBottomOf="@+id/textViewGithubLink"
-        tools:layout_editor_absoluteX="32dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewGithubLink" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/buttonAccept"
-        android:layout_width="match_parent"
+        android:layout_width="150dp"
         android:layout_height="60dp"
         android:layout_marginHorizontal="32dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
         android:text="принять"
-        app:layout_constraintTop_toBottomOf="@+id/buttonReject" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewGithubLink" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
