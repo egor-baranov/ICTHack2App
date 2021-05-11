@@ -207,9 +207,12 @@ class MainActivity : AppCompatActivity() {
             bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
         }
         OverScrollDecoratorHelper.setUpOverScroll(binding.addProjectScreen.addProjectCardView)
+//        OverScrollDecoratorHelper.setUpOverScroll(binding.viewpagerMain, OverScrollDecoratorHelper.ORIENTATION_HORIZONTAL)
 
         binding.loadSplashScreen.visibility = View.VISIBLE
         binding.fabAddProject.visibility = View.GONE
+        binding.welcomeBackString.text = "С возвращением, ${userData.firstName}"
+        binding.randomInfoString.text = GlobalDataStorage.randomSplashScreenText.random()
         Handler(Looper.getMainLooper()).postDelayed(
             {
                 binding.fabAddProject.visibility = View.VISIBLE
@@ -246,7 +249,7 @@ class MainActivity : AppCompatActivity() {
                 bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
             }
 
-            else -> this.onBackPressed()
+            else -> super.onBackPressed()
         }
     }
 
@@ -377,12 +380,38 @@ class MainActivity : AppCompatActivity() {
         secondView.visibility = View.VISIBLE
     }
 
+    fun showBottomSheet(user: User) {
+        val bottomSheetBehavior = BottomSheetBehavior.from(binding.bottom.bottomSheet)
+        if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED) {
+            bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+            uiContext = UiContext.OPENED_NOTIFICATIONS
+        } else {
+            bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+            binding.bottom.buttonReject.visibility = View.VISIBLE
+            binding.bottom.buttonAccept.visibility = View.VISIBLE
+            uiContext = UiContext.OPENED_BOTTOM_SHEET
+        }
+
+        binding.bottom.textViewNameBottom.text = user.fullName()
+        binding.bottom.textView.text = "Рейтинг ${user.rating}"
+        binding.bottom.textViewDescription.text = user.profileDescription
+        binding.bottom.textViewGithubLink.text =
+            "GitHub: https://github.com/" + user.githubProfileLink
+        binding.bottom.textViewTelegram.text = "${user.tgLink}"
+
+        binding.bottom.buttonClose.setOnClickListener {
+            bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+            uiContext = UiContext.OPENED_NOTIFICATIONS
+        }
+    }
+
     private fun addChips(list: List<String>) =
         list.forEach {
             val chip = Chip(this)
             chip.text = it
             binding.bottom.chipGroupSkills.addView(chip)
         }
+
 }
 
 
