@@ -2,10 +2,10 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="@color/white"
-    android:elevation="100dp"
     android:clickable="true"
-    android:layout_height="match_parent">
+    android:elevation="100dp">
 
     <ScrollView
         android:id="@+id/rootScrollView"
@@ -68,9 +68,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="16dp"
                 android:clickable="true"
                 android:foreground="?attr/selectableItemBackground"
-                android:layout_marginTop="16dp"
                 app:cardCornerRadius="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -84,14 +84,6 @@
                     android:fontFamily="@font/roboto_light"
                     android:text="Навыки"
                     android:textSize="16sp" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="78dp"
-
-                    android:layout_marginTop="20dp"
-                    android:src="@drawable/ic_baseline_edit_24" />
 
                 <com.google.android.material.chip.ChipGroup
                     android:layout_width="match_parent"
@@ -138,9 +130,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="16dp"
-                app:cardCornerRadius="16dp"
                 android:clickable="true"
                 android:foreground="?attr/selectableItemBackground"
+                app:cardCornerRadius="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/cardViewSkills">
@@ -153,15 +145,8 @@
                     android:text="О себе"
                     android:textSize="16sp" />
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="68dp"
-
-                    android:layout_marginTop="18dp"
-                    android:src="@drawable/ic_baseline_edit_24" />
-
                 <TextView
+                    android:id="@+id/profileDescription"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="16dp"
@@ -174,10 +159,12 @@
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardView2"
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp"
+                android:minHeight="100dp"
+                android:foreground="?attr/selectableItemBackground"
                 app:cardCornerRadius="16dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -191,6 +178,16 @@
                     android:fontFamily="@font/roboto_light"
                     android:text="Проекты"
                     android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/projectsText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="44dp"
+                    android:layout_marginBottom="16dp"
+                    android:text=""
+                    android:textSize="18sp" />
             </androidx.cardview.widget.CardView>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
@@ -207,7 +204,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/loginButon"
+        android:id="@+id/logoutButton"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_marginStart="16dp"

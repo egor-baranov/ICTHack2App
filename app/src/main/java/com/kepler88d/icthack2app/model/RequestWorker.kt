@@ -3,7 +3,9 @@ package com.kepler88d.icthack2app.model
 import android.util.Log
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
+import com.kepler88d.icthack2app.model.data.Notification
 import com.kepler88d.icthack2app.model.data.Project
+import com.kepler88d.icthack2app.model.data.Reply
 import com.kepler88d.icthack2app.model.data.User
 import io.ktor.client.*
 import io.ktor.client.features.*
@@ -42,12 +44,59 @@ class RequestWorker {
             }
         }
 
+        fun getReplyById(id: Int, handler: (Reply) -> Unit) {
+            GlobalScope.launch {
+                handler(Reply.fromJsonString(client.get {
+                    url("/replies/getById")
+                    parameter("id", id.toString())
+                }))
+            }
+        }
+
         fun getProjectList(handler: (List<Project>) -> Unit, errorHandler: () -> Unit = {}) {
             GlobalScope.launch {
                 try {
                     val listType: Type = object : TypeToken<List<Project?>?>() {}.type
                     handler(GsonBuilder().create().fromJson(client.get<String> {
                         url("/projects/list")
+                    }, listType))
+                } catch (e: Exception) {
+                    errorHandler()
+                    Log.e("Project Error", e.message.toString())
+                }
+            }
+        }
+
+        fun getRepliesOfUser(
+            id: Int,
+            handler: (List<Reply>) -> Unit,
+            errorHandler: () -> Unit = {}
+        ) {
+            GlobalScope.launch {
+                try {
+                    val listType: Type = object : TypeToken<List<Reply?>?>() {}.type
+                    handler(GsonBuilder().create().fromJson(client.get<String> {
+                        url("/reply/getByUserId")
+                        parameter("id", id.toString())
+                    }, listType))
+                } catch (e: Exception) {
+                    errorHandler()
+                    Log.e("Project Error", e.message.toString())
+                }
+            }
+        }
+
+        fun getNotificationsOfUser(
+            id: Int,
+            handler: (List<Notification>) -> Unit,
+            errorHandler: () -> Unit = {}
+        ) {
+            GlobalScope.launch {
+                try {
+                    val listType: Type = object : TypeToken<List<Notification?>?>() {}.type
+                    handler(GsonBuilder().create().fromJson(client.get<String> {
+                        url("/notification/getUsersNotification")
+                        parameter("id", id.toString())
                     }, listType))
                 } catch (e: Exception) {
                     errorHandler()
