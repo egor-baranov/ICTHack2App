@@ -552,11 +552,14 @@
         android:id="@+id/loadSplashScreen"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="16dp"
         android:background="@color/white"
         android:clickable="false"
-        android:visibility="gone">
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
+            android:id="@+id/imageView"
             android:layout_width="200dp"
             android:layout_height="200dp"
             android:background="@mipmap/ic_launcher"
