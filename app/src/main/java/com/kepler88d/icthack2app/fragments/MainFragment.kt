@@ -124,9 +124,8 @@ class MainFragment : Fragment(R.layout.fragment_main), IOnBackPressed {
         adapter = RecyclerViewMainAdapter(requireActivity() as MainActivity, recyclerList)
 
         binding.recyclerviewMain.adapter = adapter
-        val pager = (activity as MainActivity).binding.viewpagerMain
         binding.buttonNotifications.setOnClickListener {
-            pager.setCurrentItem(2, true)
+            (activity as MainActivity).binding.viewpagerMain.setCurrentItem(2, true)
         }
 
         RequestWorker.getProjectList({ projectList: List<Project> ->

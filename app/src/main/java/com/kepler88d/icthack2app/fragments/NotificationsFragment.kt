@@ -27,6 +27,15 @@ class NotificationsFragment : Fragment(R.layout.fragment_notifications) {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentNotificationsBinding.inflate(layoutInflater)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding.buttonBack.setOnClickListener {
+            (activity as MainActivity).binding.viewpagerMain.setCurrentItem(1, true)
+        }
 
         RequestWorker.getNotificationsOfUser(
             (requireActivity() as MainActivity).userData.id,
@@ -34,12 +43,6 @@ class NotificationsFragment : Fragment(R.layout.fragment_notifications) {
         )
 
         fillNotifications(listOf())
-
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
     }
 
     private fun addBackButtonListener() {
@@ -54,15 +57,26 @@ class NotificationsFragment : Fragment(R.layout.fragment_notifications) {
         val newNotificationView: View = LayoutInflater.from(this.context)
             .inflate(R.layout.item_reply, null, false)
 
-        newNotificationView.findViewWithTag<TextView>("title").text =
-            when (notification.type) {
-                NotificationType.NEW_REPLY -> "Запрос"
-                NotificationType.ACCEPTED_REPLY -> "Принято"
-                NotificationType.DENIED_REPLY -> "Отклонено"
-                NotificationType.WAIT_REPLY -> "В ожидании"
-            }
-
         fun fillSomeData(user: User, project: Project) {
+            newNotificationView.findViewWithTag<TextView>("title").setTextColor(
+                context!!.getColor(
+                    when (notification.type) {
+                        NotificationType.NEW_REPLY -> R.color.state_request
+                        NotificationType.ACCEPTED_REPLY -> R.color.state_accepted
+                        NotificationType.DENIED_REPLY -> R.color.state_rejected
+                        NotificationType.WAIT_REPLY -> R.color.state_waiting
+                    }
+                )
+            )
+
+            newNotificationView.findViewWithTag<TextView>("title").text =
+                when (notification.type) {
+                    NotificationType.NEW_REPLY -> "Запрос"
+                    NotificationType.ACCEPTED_REPLY -> "Принято"
+                    NotificationType.DENIED_REPLY -> "Отклонено"
+                    NotificationType.WAIT_REPLY -> "В ожидании"
+                }
+
             newNotificationView.findViewWithTag<TextView>("project").text = project.name
             newNotificationView.findViewWithTag<TextView>("text").text =
                 when (notification.type) {
@@ -74,33 +88,6 @@ class NotificationsFragment : Fragment(R.layout.fragment_notifications) {
                             "${project.name} был отклонен"
                     NotificationType.WAIT_REPLY -> "Скоро ваш отклик на проект " +
                             "${project.name} будет рассмотрен"
-                }
-            newNotificationView
-                .findViewWithTag<ConstraintLayout>("background")
-                .setOnClickListener {
-                    val activity = (requireActivity() as MainActivity)
-
-                    if (notification.type == NotificationType.NEW_REPLY)
-                        activity.showBottomSheet(user)
-//                    } else {
-////                        activity.fillProjectInfo(project)
-////                        activity.uiContext = MainActivity.UiContext.OPENED_PROJECT_SCREEN
-//                        activity.binding.projectScreen.root.visibility = View.VISIBLE
-////                        activity.performTransformAnimation(
-////                            newNotificationView.rootView,
-////                            activity.binding.projectScreen.root
-////                        )
-//
-////                        activity.binding.fabAddProject.visibility = View.GONE
-//
-////                        activity.binding.projectScreen.buttonBack.setOnClickListener {
-////                            activity.performTransformAnimation(
-////                                activity.binding.projectScreen.root,
-////                                it
-////                            )
-////                            activity.binding.fabAddProject.visibility = View.VISIBLE
-////                        }
-//                    }
                 }
         }
 
@@ -115,22 +102,6 @@ class NotificationsFragment : Fragment(R.layout.fragment_notifications) {
                 }
             }
         }
-
-//        RequestWorker.getUserById(
-//            notification.toUserId
-//        ) { user ->
-//            RequestWorker.getReplyById(
-//                notification.replyId
-//            ) { reply ->
-//                RequestWorker.getProjectById(
-//                    reply.projectId
-//                ) { project ->
-//                    requireActivity().runOnUiThread {
-//                        fillSomeData(user, project, reply)
-//                    }
-//                }
-//            }
-//        }
 
         binding.repliesListView.addView(newNotificationView)
     }
